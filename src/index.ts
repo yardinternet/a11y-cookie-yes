@@ -3,14 +3,19 @@
  *
  * @since 0.1.0
  */
-export class A11yCookieYes {
+export default class A11yCookieYes {
+  /**
+   * The current options.
+   */
+  private readonly options: {};
+
   /**
    * The A11yCookieYes constructor.
    *
    * @param options - Optional. An object with options.
    */
   constructor(options?: {}) {
-    console.log('A11yCookieYes constructor');
+    this.options = options || {};
   }
 
   /**
@@ -18,7 +23,7 @@ export class A11yCookieYes {
    *
    * @return `this`
    */
-  init(): this {
+  init() {
     console.log('A11yCookieYes init');
 
     return this;

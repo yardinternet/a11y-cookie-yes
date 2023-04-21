@@ -16,13 +16,13 @@ jobs:
 
       - name: Install deps and build (with cache)
         uses: bahmutov/npm-install@v1
-      - run: npm ci
+        - run: npm ci
 
-      - name: Lint
-        run: npm run lint
+        - name: Lint
+          run: npm run lint
 
-      - name: Test
-        run: npm run test --ci --coverage --maxWorkers=2
+        - name: Test
+          run: npm run test --ci --coverage --maxWorkers=2
 
-      - name: Build
-        run: npm run build
+        - name: Build
+          run: npm run build
