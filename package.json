@@ -1,18 +1,22 @@
 {
   "name": "@yardinternet/a11y-cookie-yes",
   "version": "0.1.0",
-  "license": "MIT",
   "author": "YvetteNikolov",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yardinternet/a11y-cookie-yes.git"
+  },
   "main": "dist/index.js",
   "module": "dist/a11y-cookie-yes.esm.js",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@yardinternet"
+  },
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
     "src"
   ],
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@yardinternet"
-  },
   "scripts": {
     "analyze": "size-limit --why",
     "build": "dts build",
@@ -22,17 +26,17 @@
     "start": "dts watch",
     "test": "dts test"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "dts lint"
-    }
-  },
   "jest": {
     "testEnvironment": "node"
   },
   "peerDependencies": {},
   "engines": {
     "node": ">=16"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "dts lint"
+    }
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^8.2.4",
