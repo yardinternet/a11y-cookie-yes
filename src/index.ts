@@ -1,7 +1,7 @@
 /**
  * The frontend class for the CookieYes accessibility improvements
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 export class A11yCookieYes {
   /**
@@ -13,7 +13,14 @@ export class A11yCookieYes {
     console.log('A11yCookieYes constructor');
   }
 
-  private init() {
+  /**
+   * Initializes the instance.
+   *
+   * @return `this`
+   */
+  init(): this {
     console.log('A11yCookieYes init');
+
+    return this;
   }
 }
