@@ -19,11 +19,12 @@
   ],
   "scripts": {
     "analyze": "size-limit --why",
-    "build": "dts build",
+    "build": "dts build --format esm",
     "lint": "dts lint",
     "prepare": "dts build",
     "size": "size-limit",
-    "start": "dts watch",
+    "start": "dts watch --format esm",
+    "start-multi": "dts watch --format cjs,esm",
     "test": "dts test"
   },
   "jest": {
@@ -46,5 +47,8 @@
     "size-limit": "^8.2.4",
     "tslib": "^2.5.0",
     "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "focus-trap": "^7.4.3"
   }
 }
