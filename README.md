@@ -2,7 +2,7 @@
 
 Easily manage and re-use the CookieYes accessibility improvements in Yard projects.
 
-## ✅ Getting started
+## ✅ Getting started using this package
 
 ### Step 1: Install @yardinternet/a11y-cookie-yes
 
@@ -31,6 +31,8 @@ TBA.
 1. Run `npm link` inside this project.
 2. Run `npm link @yardinternet/a11y-cookie-yes` inside the project or theme. This will create a symbolic link to the project folder.
 3. Run `npm run start` inside this project AND the equivalent script inside the project or theme.
+Note: Its important for the DTS-CLI to only output 1 format type, otherwise the live reloading wont work properly.
+We have chosen to use ESM, since its a smaller format than CSJ, but it does mean we don't support using this package with "require".
 
 ## 🚀 How to publish
 
