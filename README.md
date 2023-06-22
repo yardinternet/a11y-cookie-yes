@@ -2,7 +2,7 @@
 
 Easily manage and re-use the CookieYes accessibility improvements in Yard projects.
 
-## ✅ Getting started using this package
+## ✅ Getting started
 
 ### Step 1: Install @yardinternet/a11y-cookie-yes
 
@@ -18,7 +18,7 @@ npm install --save @yardinternet/a11y-cookie-yes
 import A11yCookieYes from '@yardinternet/a11y-cookie-yes';
 
 document.addEventListener( 'DOMContentLoaded', function () {
-    new A11yCookieYes().init();
+   A11yCookieYes.getInstance();
 } );
 ```
 

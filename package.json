@@ -1,7 +1,11 @@
 {
   "name": "@yardinternet/a11y-cookie-yes",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "author": "YvetteNikolov",
+  "contributors": [
+    "WybeBosch",
+    "YvetteNikolov"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",

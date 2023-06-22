@@ -13,10 +13,7 @@ export const transformTag = (element: Element, transformTo: string) => {
   transformedElement.innerHTML = element.innerHTML;
 
   for (let i = 0; i < element.attributes.length; i++) {
-    transformedElement.setAttribute(
-      element.attributes[i].name,
-      element.attributes[i].value
-    );
+    transformedElement.setAttribute(element.attributes[i].name, element.attributes[i].value);
   }
 
   if (!element.parentNode) return transformedElement;
@@ -41,18 +38,16 @@ export const waitForElement = (
   return new Promise((resolve, reject) => {
     const startTime = Date.now();
     const interval = setInterval(() => {
-      const elements = document.querySelectorAll(selector);
+      const elements = document.querySelectorAll(selector),
+        hasElements = elements.length > 0,
+        isSingleElement = elements.length === 1;
 
-      if (elements.length > 0) {
+      if (hasElements) {
         clearInterval(interval);
-        if (elements.length === 1) {
-          resolve(elements[0]);
-        } else {
-          resolve(elements);
-        }
+        resolve(isSingleElement ? elements[0] : elements);
       } else if (Date.now() - startTime >= maxTimeToSearch) {
         clearInterval(interval);
-        reject(`Timeout exceeded. Element '${selector}' not found.`);
+        reject(new Error(`Timeout exceeded. Element '${selector}' not found within timelimit.`));
       }
     }, 100);
   });
@@ -61,12 +56,21 @@ export const waitForElement = (
 /**
  * The element has visibility: hidden, which makes it initially un-focusable, creating an error.
  * This ensures an wait until it can activate the trap.
+ * Naming of this function cannot be changed since it is searched for by focus-trap package
+ * https://www.npmjs.com/package/focus-trap#:~:text=managing/trapping%20focus.-,checkCanFocusTrap,	%7B(containers%3A%20Array%3CHTMLElement
+ * @param {Element[]} elements The elements to check for visibility
  */
 export const checkCanFocusTrap = (elements: Element[]) => {
   const results = elements.map((element): Promise<void> => {
     return new Promise((resolve) => {
       const interval = setInterval(() => {
-        if (getComputedStyle(element).visibility !== 'hidden') {
+        const style = window.getComputedStyle(element);
+        if (
+          style.visibility !== 'hidden' &&
+          style.display !== 'none' &&
+          style.height !== '0px' &&
+          style.width !== '0px'
+        ) {
           resolve();
           clearInterval(interval);
         }

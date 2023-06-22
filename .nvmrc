@@ -1,4 +1,3 @@
-v14.18.2
+v18
 
-# This project requires Node.js version 18 with Yarn installed.
-# npm install -g yarn
+# This project requires Node.js version 18
