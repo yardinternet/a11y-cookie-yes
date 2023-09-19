@@ -1,0 +1,175 @@
+/* Styling for Cookie-Yes (cookie-law-info) version 3 */
+$ckClass: 'cky';
+$ckData: 'data-cky-tag';
+$ckDefaultColor: #1863dc;
+
+/**
+* Shared styles among CookieYes Components
+*/
+[#{$ckData}='video-placeholder'],
+.#{$ckClass}-btn-revisit-wrapper,
+.#{$ckClass}-consent-container,
+.#{$ckClass}-modal {
+	--a11y-cookie-yes-primary-color: #{$ckDefaultColor};
+	--a11y-cookie-yes-border-radius: 5px;
+	--a11y-cookie-yes-btn-font-size: 1rem;
+	--a11y-cookie-yes-btn-font-size-banner: 0.95rem;
+	--a11y-cookie-yes-btn-primary-bg: var(--a11y-cookie-yes-primary-color);
+	--a11y-cookie-yes-btn-primary-txt-color: #fff;
+	--a11y-cookie-yes-btn-primary-border-color: var(--a11y-cookie-yes-primary-color);
+	--a11y-cookie-yes-btn-secondary-bg: transparent;
+	--a11y-cookie-yes-btn-secondary-txt-color: var(--a11y-cookie-yes-primary-color);
+	--a11y-cookie-yes-btn-secondary-border-color: var(--a11y-cookie-yes-primary-color);
+	--a11y-cookie-yes-blocked-embed-bg: #f2f2f2;
+	--a11y-cookie-yes-vimeo-icon-font-family: 'Font Awesome 6 Brands';
+	--a11y-cookie-yes-vimeo-icon-color: #01adef;
+	--a11y-cookie-yes-vimeo-icon-size: 5rem;
+	--a11y-cookie-yes-vimeo-icon-unicode: '\f27d';
+
+	// Enforce sitewide button styling
+	button.#{$ckClass}-btn {
+		border-radius: var(--a11y-cookie-yes-border-radius);
+
+		// If default cookieyes button color is used, we overwrite with website primary color
+		&[style*='-color:#{$ckDefaultColor}'] {
+			&.#{$ckClass}-btn-customize,
+			&.#{$ckClass}-btn-preferences {
+				border-color: var(--a11y-cookie-yes-btn-secondary-border-color) !important;
+				background-color: var(--a11y-cookie-yes-btn-secondary-bg) !important;
+				color: var(--a11y-cookie-yes-btn-secondary-txt-color) !important;
+			}
+
+			&.#{$ckClass}-btn-reject,
+			&.#{$ckClass}-btn-accept {
+				border-color: var(--a11y-cookie-yes-btn-primary-border-color) !important;
+				background-color: var(--a11y-cookie-yes-btn-primary-bg) !important;
+				color: var(--a11y-cookie-yes-btn-primary-txt-color) !important;
+			}
+		}
+	}
+}
+
+// Force font-size buttons, descriptions
+.#{$ckClass}-btn,
+.#{$ckClass}-notice-des *,
+.#{$ckClass}-preference-content-wrapper *,
+.#{$ckClass}-accordion-header-des *,
+.#{$ckClass}-gpc-wrapper .#{$ckClass}-gpc-desc * {
+	font-size: var(--a11y-cookie-yes-btn-font-size) !important;
+}
+
+/**
+ * CookieYes banner consent
+ */
+.#{$ckClass}-consent-container {
+	// Smaller buttons to stay on one line
+	.#{$ckClass}-btn {
+		font-size: var(--a11y-cookie-yes-btn-font-size-banner) !important;
+	}
+}
+
+/**
+ * CookieYes minimized banner consent
+ */
+.#{$ckClass}-btn-revisit-wrapper {
+	&[style*='color:#{$ckDefaultColor}'] {
+		background-color: var(--a11y-cookie-yes-btn-primary-bg) !important;
+	}
+}
+
+/**
+ * CookieYes Modal popup cookielist
+ */
+.#{$ckClass}-modal {
+	// Decrease cookielist category height.
+	.#{$ckClass}-accordion-header-des {
+		display: none;
+	}
+	.#{$ckClass}-accordion-item {
+		margin-bottom: 10px;
+	}
+	.#{$ckClass}-preference-title {
+		margin-bottom: 0;
+	}
+
+	// Hide cookie category if it's empty
+	.#{$ckClass}-accordion:has(.#{$ckClass}-empty-cookies-text) {
+		display: none;
+	}
+
+	// White fade at the bottom of the modal
+	.#{$ckClass}-footer-shadow {
+		display: none !important;
+	}
+
+	// Bottom of modal remove "powered by CookieYes"
+	[#{$ckData}='detail-powered-by'] {
+		display: none !important;
+	}
+}
+
+/**
+ * Wordpress / CookieYes blocked embed overlay
+ */
+.wp-block-embed {
+	// Video container
+	[#{$ckData}='video-placeholder'] {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		width: 100% !important;
+		height: 100% !important;
+		align-items: center;
+		border: 0;
+		background-color: var(--a11y-cookie-yes-blocked-embed-background);
+	}
+
+	// Vimeo thumbnail icon
+	&.is-provider-vimeo {
+		[#{$ckData}='video-placeholder'] {
+			background-image: none;
+
+			&::after {
+				position: absolute;
+				bottom: 0;
+				color: var(--a11y-cookie-yes-vimeo-icon-color);
+				content: var(--a11y-cookie-yes-vimeo-icon-unicode);
+				font-family: var(--a11y-cookie-yes-vimeo-icon-font-family);
+				font-size: var(--a11y-cookie-yes-vimeo-icon-size);
+			}
+		}
+	}
+
+	// Button container
+	[#{$ckData}='placeholder-title'] {
+		position: relative;
+		z-index: 1;
+		border-color: var(--a11y-cookie-yes-btn-primary-bg) !important;
+		margin-bottom: 0;
+		background-color: transparent !important;
+		border-radius: var(--a11y-cookie-yes-border-radius);
+		color: var(--a11y-cookie-yes-btn-primary-txt-color) !important;
+		transition: 0.2s transform;
+
+		&::before {
+			position: absolute;
+			z-index: -1;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			background-color: var(--a11y-cookie-yes-btn-primary-bg);
+			content: '';
+			filter: brightness(100%);
+		}
+
+		&:hover,
+		&:focus,
+		&:active {
+			&::before {
+				filter: brightness(85%);
+			}
+		}
+	}
+}

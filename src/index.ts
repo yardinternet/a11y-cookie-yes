@@ -11,6 +11,7 @@
  */
 import { transformTag, waitForElement, checkCanFocusTrap } from './helpers/a11y-helpers';
 import * as focusTrap from 'focus-trap';
+import './styles.scss';
 
 // =====================================================================================
 // ================================ Class definitions ===================================
