@@ -16,260 +16,257 @@ import * as focusTrap from 'focus-trap';
 // ================================ Class definitions ===================================
 // =====================================================================================
 export default class A11yCookieYes {
-  private static instance: A11yCookieYes = new A11yCookieYes();
-  private readonly options: {};
+	private static instance: A11yCookieYes = new A11yCookieYes();
+	private readonly options: {};
 
-  private EMBED_BLOCKER_NEW_CLASS_CSS: string = '.cky-banner-element';
-  private EMBED_BLOCKER_BUTTON_CSS: string = '[data-cky-tag="placeholder-title"]';
-  private COOKIE_YES_HIDDEN_CSS: string = '.cky-hide';
-  private BANNER_TITLE_CSS: string = '.cky-title';
-  private BANNER_BTN_CLOSE_CSS: string = '.cky-banner-btn-close';
+	private EMBED_BLOCKER_NEW_CLASS_CSS: string = '.cky-banner-element';
+	private EMBED_BLOCKER_BUTTON_CSS: string = '[data-cky-tag="placeholder-title"]';
+	private COOKIE_YES_HIDDEN_CSS: string = '.cky-hide';
+	private BANNER_TITLE_CSS: string = '.cky-title';
+	private BANNER_BTN_CLOSE_CSS: string = '.cky-banner-btn-close';
 
-  private MODAL_OPEN_CSS: string = '.cky-modal-open';
-  private MODAL_BTN_CLOSE_CSS: string = '.cky-modal .cky-btn-close';
-  private MODAL_BTN_CLOSE_ARIA_LABEL: string = 'Sluit';
-  private MODAL_TITLE_CSS: string = '.cky-preference-title';
-  private MODAL_ACCORDION_CSS: string = '.cky-accordion';
-  private MODAL_ACCORDION_BTN_CSS: string = '.cky-accordion-btn';
-  private MODAL_ACCORDION_OPEN_CSS: string = '.cky-accordion-active';
+	private MODAL_OPEN_CSS: string = '.cky-modal-open';
+	private MODAL_BTN_CLOSE_CSS: string = '.cky-modal .cky-btn-close';
+	private MODAL_BTN_CLOSE_ARIA_LABEL: string = 'Sluit';
+	private MODAL_TITLE_CSS: string = '.cky-preference-title';
+	private MODAL_ACCORDION_CSS: string = '.cky-accordion';
+	private MODAL_ACCORDION_BTN_CSS: string = '.cky-accordion-btn';
+	private MODAL_ACCORDION_OPEN_CSS: string = '.cky-accordion-active';
 
-  private COOKIE_BANNER_CSS: string = '.cky-consent-container';
-  private COOKIE_MODAL_CSS: string = '.cky-modal';
-  private cookieModal: undefined | HTMLElement;
-  private cookieBanner: undefined | HTMLElement;
+	private COOKIE_BANNER_CSS: string = '.cky-consent-container';
+	private COOKIE_MODAL_CSS: string = '.cky-modal';
+	private cookieModal: undefined | HTMLElement;
+	private cookieBanner: undefined | HTMLElement;
 
-  private focusTrapBanner: undefined | typeof focusTrap;
-  private focusTrapModal: undefined | typeof focusTrap;
+	private focusTrapBanner: undefined | typeof focusTrap;
+	private focusTrapModal: undefined | typeof focusTrap;
 
-  private focusTrapBannerOptions: undefined | object;
-  private focusTrapModalOptions: undefined | object;
-  private focusTrapOptions: object = {
-    allowOutsideClick: true,
-    clickOutsideDeactivates: true,
-    checkCanFocusTrap
-  };
+	private focusTrapBannerOptions: undefined | object;
+	private focusTrapModalOptions: undefined | object;
+	private focusTrapOptions: object = {
+		allowOutsideClick: true,
+		clickOutsideDeactivates: true,
+		checkCanFocusTrap,
+	};
 
-  // =====================================================================================
-  // ================================== Constructor ======================================
-  // =====================================================================================
-  constructor(options?: {}) {
-    this.options = options || {};
-    if (A11yCookieYes.instance) {
-      return A11yCookieYes.instance;
-    }
+	// =====================================================================================
+	// ================================== Constructor ======================================
+	// =====================================================================================
+	constructor(options?: {}) {
+		this.options = options || {};
+		if (A11yCookieYes.instance) {
+			return A11yCookieYes.instance;
+		}
 
-    // trapOptions declared here since spreadoperator cant be used in class properties
-    this.focusTrapBannerOptions = {
-      ...this.focusTrapOptions,
-      // By default CookieYes has the banner close button removed from the DOM, unless you enable the setting.
-      onDeactivate: () => this.closeCookieYes(this.BANNER_BTN_CLOSE_CSS)
-    };
+		// trapOptions declared here since spreadoperator cant be used in class properties
+		this.focusTrapBannerOptions = {
+			...this.focusTrapOptions,
+			// By default CookieYes has the banner close button removed from the DOM, unless you enable the setting.
+			onDeactivate: () => this.closeCookieYes(this.BANNER_BTN_CLOSE_CSS),
+		};
 
-    this.focusTrapModalOptions = {
-      ...this.focusTrapOptions,
-      onDeactivate: () => this.closeCookieYes(this.MODAL_BTN_CLOSE_CSS)
-    };
+		this.focusTrapModalOptions = {
+			...this.focusTrapOptions,
+			onDeactivate: () => this.closeCookieYes(this.MODAL_BTN_CLOSE_CSS),
+		};
 
-    // Code is executed from init function because constructor cannot be async.
-    this.init();
+		// Code is executed from init function because constructor cannot be async.
+		this.init();
 
-    A11yCookieYes.instance = this;
-  }
+		A11yCookieYes.instance = this;
+	}
 
-  public static getInstance(): A11yCookieYes {
-    return A11yCookieYes.instance;
-  }
+	public static getInstance(): A11yCookieYes {
+		return A11yCookieYes.instance;
+	}
 
-  private closeCookieYes = (elementSelector: string) => {
-    const closeButton: HTMLButtonElement | null = document.querySelector(elementSelector);
-    if (!closeButton || closeButton.closest(this.COOKIE_YES_HIDDEN_CSS)) return;
-    closeButton.click();
-  };
+	private closeCookieYes = (elementSelector: string) => {
+		const closeButton: HTMLButtonElement | null = document.querySelector(elementSelector);
+		if (!closeButton || closeButton.closest(this.COOKIE_YES_HIDDEN_CSS)) return;
+		closeButton.click();
+	};
 
-  // =====================================================================================
-  // ====================================== Init =========================================
-  // =====================================================================================
-  public async init() {
-    this.cookieBanner = (await waitForElement(this.COOKIE_BANNER_CSS)) as HTMLElement;
-    this.cookieModal = (await waitForElement(this.COOKIE_MODAL_CSS)) as HTMLElement;
+	// =====================================================================================
+	// ====================================== Init =========================================
+	// =====================================================================================
+	public async init() {
+		this.cookieBanner = (await waitForElement(this.COOKIE_BANNER_CSS)) as HTMLElement;
+		this.cookieModal = (await waitForElement(this.COOKIE_MODAL_CSS)) as HTMLElement;
 
-    // If the cookieBanner could not be found within 5 sec, dont execute rest of init();
-    if (!this.cookieBanner || !this.cookieModal) return false;
+		// If the cookieBanner could not be found within 5 sec, dont execute rest of init();
+		if (!this.cookieBanner || !this.cookieModal) return false;
 
-    this.focusTrapBanner = focusTrap.createFocusTrap(
-      this.cookieBanner,
-      this.focusTrapBannerOptions
-    );
-    /* prettier-ignore */
-    this.focusTrapModal = focusTrap.createFocusTrap(
-	  this.cookieModal,
-	  this.focusTrapModalOptions
-	);
+		this.focusTrapBanner = focusTrap.createFocusTrap(
+			this.cookieBanner,
+			this.focusTrapBannerOptions
+		);
 
-    // Banner
-    this.observeBanner();
-    this.changeBannerTitleToH2();
+		this.focusTrapModal = focusTrap.createFocusTrap(this.cookieModal, this.focusTrapModalOptions);
 
-    // Modal
-    this.observeModal();
-    this.observeAccordions();
-    this.changeModalTitleToH2();
-    this.changeModalCloseBtnAriaLabel();
+		// Banner
+		this.observeBanner();
+		this.changeBannerTitleToH2();
 
-    // Page
-    this.changeEmbedText();
+		// Modal
+		this.observeModal();
+		this.observeAccordions();
+		this.changeModalTitleToH2();
+		this.changeModalCloseBtnAriaLabel();
 
-    return this;
-  }
+		// Page
+		this.changeEmbedText();
 
-  // =====================================================================================
-  // ===================================== Banner ========================================
-  // =====================================================================================
+		return this;
+	}
 
-  /**
-   * A11y: trap focus in banner when the accept all button is focused
-   */
-  private observeBanner(): void {
-    // Check if cookiebanner is currently visible
-    if (this.cookieBanner?.classList.contains(this.COOKIE_YES_HIDDEN_CSS.substring(1))) {
-      this.focusTrapBanner?.deactivate();
-      return;
-    }
+	// =====================================================================================
+	// ===================================== Banner ========================================
+	// =====================================================================================
 
-    this.focusTrapBanner?.activate();
+	/**
+	 * A11y: trap focus in banner when the accept all button is focused
+	 */
+	private observeBanner(): void {
+		// Check if cookiebanner is currently visible
+		if (this.cookieBanner?.classList.contains(this.COOKIE_YES_HIDDEN_CSS.substring(1))) {
+			this.focusTrapBanner?.deactivate();
+			return;
+		}
 
-    // Check if the banner stays visible
-    const observer = new MutationObserver((mutations: MutationRecord[]) => {
-      mutations.forEach((mutation: MutationRecord) => {
-        const bannerIsHidden = (mutation.target as HTMLElement).classList.contains(
-          this.COOKIE_YES_HIDDEN_CSS.substring(1)
-        );
-        mutation.attributeName === 'class' && bannerIsHidden
-          ? this.focusTrapBanner?.deactivate()
-          : this.focusTrapBanner?.activate();
-      });
-    });
+		this.focusTrapBanner?.activate();
 
-    observer.observe(this.cookieBanner as HTMLElement, { attributes: true });
-  }
+		// Check if the banner stays visible
+		const observer = new MutationObserver((mutations: MutationRecord[]) => {
+			mutations.forEach((mutation: MutationRecord) => {
+				const bannerIsHidden = (mutation.target as HTMLElement).classList.contains(
+					this.COOKIE_YES_HIDDEN_CSS.substring(1)
+				);
+				mutation.attributeName === 'class' && bannerIsHidden
+					? this.focusTrapBanner?.deactivate()
+					: this.focusTrapBanner?.activate();
+			});
+		});
 
-  /**
-   * A11y: transform modal title to h2
-   */
-  private changeBannerTitleToH2(): void {
-    const title: HTMLParagraphElement | null = document.querySelector(this.BANNER_TITLE_CSS);
-    if (!title) return;
+		observer.observe(this.cookieBanner as HTMLElement, { attributes: true });
+	}
 
-    transformTag(title, 'h2');
-  }
+	/**
+	 * A11y: transform modal title to h2
+	 */
+	private changeBannerTitleToH2(): void {
+		const title: HTMLParagraphElement | null = document.querySelector(this.BANNER_TITLE_CSS);
+		if (!title) return;
 
-  // ====================================================================================
-  // ===================================== Modal ========================================
-  // ====================================================================================
+		transformTag(title, 'h2');
+	}
 
-  /**
-   * A11y: Observes the cookie modal for changes
-   */
-  private observeModal(): void {
-    if (!this.cookieModal) return;
+	// ====================================================================================
+	// ===================================== Modal ========================================
+	// ====================================================================================
 
-    const observer = new MutationObserver((mutations: MutationRecord[]) => {
-      mutations.forEach((mutation: MutationRecord) => {
-        const targetElement = mutation.target as HTMLElement;
-        if (mutation.attributeName === 'class') {
-          // If the modal opens
-          if (
-            mutation.attributeName == 'class' &&
-            targetElement.classList.contains(this.MODAL_OPEN_CSS.substring(1))
-          ) {
-            setTimeout(() => {
-              this.focusTrapModal.activate();
-            }, 200);
-          }
+	/**
+	 * A11y: Observes the cookie modal for changes
+	 */
+	private observeModal(): void {
+		if (!this.cookieModal) return;
 
-          // If the modal closes
-          if (
-            mutation.attributeName == 'class' &&
-            !targetElement.classList.contains(this.MODAL_OPEN_CSS.substring(1))
-          ) {
-            this.focusTrapModal?.deactivate();
-          }
-        }
-      });
-    });
+		const observer = new MutationObserver((mutations: MutationRecord[]) => {
+			mutations.forEach((mutation: MutationRecord) => {
+				const targetElement = mutation.target as HTMLElement;
+				if (mutation.attributeName === 'class') {
+					// If the modal opens
+					if (
+						mutation.attributeName == 'class' &&
+						targetElement.classList.contains(this.MODAL_OPEN_CSS.substring(1))
+					) {
+						setTimeout(() => {
+							this.focusTrapModal.activate();
+						}, 200);
+					}
 
-    observer.observe(this.cookieModal, {
-      attributes: true
-    });
-  }
+					// If the modal closes
+					if (
+						mutation.attributeName == 'class' &&
+						!targetElement.classList.contains(this.MODAL_OPEN_CSS.substring(1))
+					) {
+						this.focusTrapModal?.deactivate();
+					}
+				}
+			});
+		});
 
-  /**
-   * A11y: observe accordions for changes to update aria-expanded
-   */
-  private observeAccordions(): void {
-    const accordions: NodeListOf<HTMLElement> = document.querySelectorAll(this.MODAL_ACCORDION_CSS);
+		observer.observe(this.cookieModal, {
+			attributes: true,
+		});
+	}
 
-    accordions?.forEach((wrapper: HTMLElement): void => {
-      const button: HTMLButtonElement | null = wrapper.querySelector(this.MODAL_ACCORDION_BTN_CSS);
+	/**
+	 * A11y: observe accordions for changes to update aria-expanded
+	 */
+	private observeAccordions(): void {
+		const accordions: NodeListOf<HTMLElement> = document.querySelectorAll(this.MODAL_ACCORDION_CSS);
 
-      button?.setAttribute('aria-expanded', 'false');
+		accordions?.forEach((wrapper: HTMLElement): void => {
+			const button: HTMLButtonElement | null = wrapper.querySelector(this.MODAL_ACCORDION_BTN_CSS);
 
-      const observer = new MutationObserver((mutations: MutationRecord[]) => {
-        mutations.forEach((mutation: MutationRecord) => {
-          const newAriaState = wrapper?.classList
-            .contains(this.MODAL_ACCORDION_OPEN_CSS.substring(1))
-            .toString();
-          if (mutation.type === 'attributes') {
-            button?.setAttribute('aria-expanded', newAriaState);
-          }
-        });
-      });
+			button?.setAttribute('aria-expanded', 'false');
 
-      observer.observe(wrapper, {
-        attributes: true
-      });
-    });
-  }
+			const observer = new MutationObserver((mutations: MutationRecord[]) => {
+				mutations.forEach((mutation: MutationRecord) => {
+					const newAriaState = wrapper?.classList
+						.contains(this.MODAL_ACCORDION_OPEN_CSS.substring(1))
+						.toString();
+					if (mutation.type === 'attributes') {
+						button?.setAttribute('aria-expanded', newAriaState);
+					}
+				});
+			});
 
-  /**
-   * A11y: transform modal title to h2
-   */
-  private changeModalTitleToH2(): void {
-    const title: HTMLSpanElement | null = document.querySelector(this.MODAL_TITLE_CSS);
-    if (!title) return;
-    transformTag(title, 'h2');
-  }
+			observer.observe(wrapper, {
+				attributes: true,
+			});
+		});
+	}
 
-  /**
-   * A11y: Change aria-label close button in modal
-   */
-  private changeModalCloseBtnAriaLabel(): void {
-    const closeButton: HTMLButtonElement | null = document.querySelector(this.MODAL_BTN_CLOSE_CSS);
-    if (!closeButton) return;
+	/**
+	 * A11y: transform modal title to h2
+	 */
+	private changeModalTitleToH2(): void {
+		const title: HTMLSpanElement | null = document.querySelector(this.MODAL_TITLE_CSS);
+		if (!title) return;
+		transformTag(title, 'h2');
+	}
 
-    closeButton.setAttribute('aria-label', this.MODAL_BTN_CLOSE_ARIA_LABEL);
-  }
+	/**
+	 * A11y: Change aria-label close button in modal
+	 */
+	private changeModalCloseBtnAriaLabel(): void {
+		const closeButton: HTMLButtonElement | null = document.querySelector(this.MODAL_BTN_CLOSE_CSS);
+		if (!closeButton) return;
 
-  // ====================================================================================
-  // ====================================== Page ========================================
-  // ====================================================================================
+		closeButton.setAttribute('aria-label', this.MODAL_BTN_CLOSE_ARIA_LABEL);
+	}
 
-  /**
-   * Make the accept text which appears when the user has not accepted cookies accessible
-   * like a button. Changing the <p> to a <button> will lose the event listener.
-   */
-  private changeEmbedText(): void {
-    const acceptText: NodeListOf<Element> = document.querySelectorAll(
-      this.EMBED_BLOCKER_BUTTON_CSS
-    );
+	// ====================================================================================
+	// ====================================== Page ========================================
+	// ====================================================================================
 
-    acceptText?.forEach((text: Element) => {
-      const button = transformTag(text, 'button') as HTMLButtonElement;
-      if (!button) return;
+	/**
+	 * Make the accept text which appears when the user has not accepted cookies accessible
+	 * like a button. Changing the <p> to a <button> will lose the event listener.
+	 */
+	private changeEmbedText(): void {
+		const acceptText: NodeListOf<Element> = document.querySelectorAll(
+			this.EMBED_BLOCKER_BUTTON_CSS
+		);
 
-      // This special classnames is detected by cookie-yes and will trigger a reopening of the modal when clicked
-      // @see https://www.cookieyes.com/documentation/change-cookie-consent-using-cookieyes/
-      button.classList.add(this.EMBED_BLOCKER_NEW_CLASS_CSS.substring(1));
-    });
-  }
+		acceptText?.forEach((text: Element) => {
+			const button = transformTag(text, 'button') as HTMLButtonElement;
+			if (!button) return;
+
+			// This special classnames is detected by cookie-yes and will trigger a reopening of the modal when clicked
+			// @see https://www.cookieyes.com/documentation/change-cookie-consent-using-cookieyes/
+			button.classList.add(this.EMBED_BLOCKER_NEW_CLASS_CSS.substring(1));
+		});
+	}
 }
