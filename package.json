@@ -1,58 +1,59 @@
 {
-  "name": "@yardinternet/a11y-cookie-yes",
-  "version": "1.0.0",
-  "author": "YvetteNikolov",
-  "contributors": [
-    "WybeBosch",
-    "YvetteNikolov"
-  ],
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yardinternet/a11y-cookie-yes.git"
-  },
-  "main": "dist/index.js",
-  "module": "dist/a11y-cookie-yes.esm.js",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@yardinternet"
-  },
-  "typings": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src"
-  ],
-  "scripts": {
-    "analyze": "size-limit --why",
-    "build": "dts build --format esm",
-    "lint": "dts lint",
-    "prepare": "dts build",
-    "size": "size-limit",
-    "start": "dts watch --format esm",
-    "start-multi": "dts watch --format cjs,esm",
-    "test": "dts test"
-  },
-  "jest": {
-    "testEnvironment": "node"
-  },
-  "peerDependencies": {},
-  "engines": {
-    "node": ">=14"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "dts lint"
-    }
-  },
-  "devDependencies": {
-    "@size-limit/preset-small-lib": "^8.2.4",
-    "@tsconfig/recommended": "^1.0.2",
-    "dts-cli": "^2.0.2",
-    "husky": "^8.0.3",
-    "size-limit": "^8.2.4",
-    "tslib": "^2.5.0",
-    "typescript": "^5.0.4"
-  },
-  "dependencies": {
-    "focus-trap": "^7.4.3"
-  }
+	"name": "@yardinternet/a11y-cookie-yes",
+	"version": "1.0.0",
+	"author": "YvetteNikolov",
+	"contributors": [
+		"WybeBosch",
+		"YvetteNikolov"
+	],
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/yardinternet/a11y-cookie-yes.git"
+	},
+	"main": "dist/index.js",
+	"module": "dist/a11y-cookie-yes.esm.js",
+	"publishConfig": {
+		"registry": "https://npm.pkg.github.com/@yardinternet"
+	},
+	"typings": "dist/index.d.ts",
+	"files": [
+		"dist",
+		"src"
+	],
+	"scripts": {
+		"analyze": "size-limit --why",
+		"build": "dts build --format esm",
+		"lint": "dts lint",
+		"prepare": "dts build",
+		"size": "size-limit",
+		"start": "dts watch --format esm",
+		"start-multi": "dts watch --format cjs,esm",
+		"test": "dts test"
+	},
+	"jest": {
+		"testEnvironment": "node"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "dts lint"
+		}
+	},
+	"devDependencies": {
+		"@size-limit/preset-small-lib": "^8.2.4",
+		"@tsconfig/recommended": "^1.0.2",
+		"dts-cli": "^2.0.2",
+		"husky": "^8.0.3",
+		"rollup-plugin-scss": "^4.0.0",
+		"sass": "^1.67.0",
+		"size-limit": "^8.2.4",
+		"tslib": "^2.5.0",
+		"typescript": "^5.0.4"
+	},
+	"dependencies": {
+		"focus-trap": "^7.4.3"
+	}
 }

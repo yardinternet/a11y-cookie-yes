@@ -22,9 +22,77 @@ document.addEventListener( 'DOMContentLoaded', function () {
 } );
 ```
 
+## Step 3 (optional): Import CSS files
+
+The package itselfs fixes alot of styling issues with CookieYes,
+which is why its recommended to import it aswell.
+Then optionally you can pass extra native css variables to overwrite the default styling.
+
+```scss
+@import '~@yardinternet/a11y-cookie-yes/dist/a11y-cookie-yes';
+
+[data-cky-tag='video-placeholder'],
+.cky-btn-revisit-wrapper,
+.cky-consent-container,
+.cky-modal {
+	--a11y-cookie-yes-primary-color: #{theme-color( 'primary' )};
+}
+```
+
+## Step 4 (optional): Add embedBlocker a11y script
+
+Depending on your project setup, you might need to add the embedBlocker script.
+We usually define ours in `app/Actions/Gutenberg.php`
+
+```php
+	/**
+	 * Change YouTube block embed URL to:
+	 * 1. Include youtube-nocookie
+	 * 2. Add disablekb=1 to disable YouTube keyboard shortcuts for a11y
+	 * 3. Add ?keyboard=0 to disable Vimeo keyboard shortcuts for a11y
+	 */
+	public function changeEmbedURL(string $blockContent, array $block): string
+	{
+		if ("core/embed" !== $block['blockName']) {
+			return $blockContent;
+		}
+
+		$blockContent = str_replace('youtube.com', 'youtube-nocookie.com', $blockContent);
+		$blockContent = str_replace('?feature=oembed', '?feature=oembed&disablekb=1', $blockContent); // YouTube
+		$blockContent = str_replace('dnt=1', 'dnt=1&keyboard=0', $blockContent); // Vimeo
+
+		return $blockContent;
+	}
+```
+
+And then call it in our `app/filters.php`
+
+```php
+// Embeds
+Hook::filter('render_block', 'App\Actions\Gutenberg@changeEmbedURL', 10, 3);
+```
+
 ## ⚙️ Changing options
 
-TBA.
+List of current styling options that can be overwritten
+
+```scss
+	--a11y-cookie-yes-primary-color: #{$ckDefaultColor};
+	--a11y-cookie-yes-border-radius: 5px;
+	--a11y-cookie-yes-button-font-size-all: 1rem;
+	--a11y-cookie-yes-button-font-size-banner: 0.95rem;
+	--a11y-cookie-yes-button-primary-color-bg: var(--a11y-cookieyes-primary-color);
+	--a11y-cookie-yes-button-primary-color-txt: #ffffff;
+	--a11y-cookie-yes-button-primary-color-border: var(--a11y-cookieyes-primary-color);
+	--a11y-cookie-yes-button-secondary-color-bg: transparent;
+	--a11y-cookie-yes-button-secondary-color-txt: var(--a11y-cookieyes-primary-color);
+	--a11y-cookie-yes-button-secondary-color-border: var(--a11y-cookieyes-primary-color);
+	--a11y-cookie-yes-blocked-embed-background: #f2f2f2;
+	--a11y-cookie-yes-vimeo-icon-font-family: 'Font Awesome 6 Brands';
+	--a11y-cookie-yes-vimeo-icon-color: #01adef;
+	--a11y-cookie-yes-vimeo-icon-size: 5rem;
+	--a11y-cookie-yes-vimeo-icon-code: '\f27d';
+```
 
 ## 👷‍♀️ Package development
 
