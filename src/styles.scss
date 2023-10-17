@@ -1,7 +1,8 @@
 /* Styling for Cookie-Yes (cookie-law-info) version 3 */
 $ckClass: 'cky';
 $ckData: 'data-cky-tag';
-$ckDefaultColor: #1863dc;
+$ckDefaultColor: #1863DC;
+$ckRevisitConsentDefaultColor:#0056A7;
 
 /**
 * Shared styles among CookieYes Components
@@ -72,7 +73,7 @@ $ckDefaultColor: #1863dc;
  * CookieYes minimized banner consent
  */
 .#{$ckClass}-btn-revisit-wrapper {
-	&[style*='color:#{$ckDefaultColor}'] {
+	&[style*='color:#{$ckRevisitConsentDefaultColor}'] {
 		background-color: var(--a11y-cookie-yes-btn-primary-bg) !important;
 	}
 }

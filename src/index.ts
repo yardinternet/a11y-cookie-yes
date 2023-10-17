@@ -113,6 +113,7 @@ export default class A11yCookieYes {
 		this.observeAccordions();
 		this.changeModalTitleToH2();
 		this.changeModalCloseBtnAriaLabel();
+		this.ChangeModelButtonsToH3();
 
 		// Page
 		this.changeEmbedText();
@@ -248,6 +249,22 @@ export default class A11yCookieYes {
 		closeButton.setAttribute('aria-label', this.MODAL_BTN_CLOSE_ARIA_LABEL);
 	}
 
+	/**
+	 * A11y: Makes the buttons in the modal h3 elements
+	 */
+	private ChangeModelButtonsToH3(): void {
+		const buttons = document.querySelectorAll(this.MODAL_ACCORDION_BTN_CSS);
+		buttons?.forEach((button: Element) => {
+			if(!button.parentElement) return;
+
+			const h3Element = document.createElement('h3');
+			h3Element.classList.add('cky-preference-title');
+			button.parentElement.insertBefore(h3Element, button);
+			h3Element.appendChild(button);
+		  
+		});
+	  }
+	  
 	// ====================================================================================
 	// ====================================== Page ========================================
 	// ====================================================================================
