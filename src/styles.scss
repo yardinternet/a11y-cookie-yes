@@ -34,7 +34,8 @@ $ckRevisitConsentDefaultColor: #0056a7;
 		// If default cookieyes button color is used, we overwrite with website primary color
 		&[style*='-color:#{$ckDefaultColor}'] {
 			[style*='-color:#{$ckDefaultColor}'] &.#{$ckClass}-btn-customize,
-			&.#{$ckClass}-btn-preferences {
+			&.#{$ckClass}-btn-preferences,
+			&.#{$ckClass}-btn-customize {
 				border-color: var(--a11y-cookie-yes-btn-secondary-border-color) !important;
 				background-color: var(--a11y-cookie-yes-btn-secondary-bg) !important;
 				color: var(--a11y-cookie-yes-btn-secondary-txt-color) !important;
