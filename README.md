@@ -39,6 +39,15 @@ Then optionally you can pass extra native css variables to overwrite the default
 }
 ```
 
+depending on your primary color you might need to add a border if your footer has the primary color.
+
+```scss
+.cky-btn-revisit-wrapper {
+	border: 1px solid color-yiq( theme-color( 'primary' ) );
+}
+```
+
+
 ## Step 4 (optional): Add embedBlocker a11y script
 
 Depending on your project setup, you might need to add the embedBlocker script.
