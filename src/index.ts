@@ -20,6 +20,8 @@ export default class A11yCookieYes {
 	private static instance: A11yCookieYes = new A11yCookieYes();
 	private readonly options: {};
 
+	private REVISIT_BTN_WRAPPER_CSS: string = '.cky-btn-revisit-wrapper';
+
 	private EMBED_BLOCKER_NEW_CLASS_CSS: string = '.cky-banner-element';
 	private EMBED_BLOCKER_BUTTON_CSS: string = '[data-cky-tag="placeholder-title"]';
 	private COOKIE_YES_HIDDEN_CSS: string = '.cky-hide';
@@ -104,6 +106,9 @@ export default class A11yCookieYes {
 
 		this.focusTrapModal = focusTrap.createFocusTrap(this.cookieModal, this.focusTrapModalOptions);
 
+		// Revisit button
+		this.moveRevisitButtonToFooter();
+
 		// Banner
 		this.observeBanner();
 		this.changeBannerTitleToH2();
@@ -113,12 +118,28 @@ export default class A11yCookieYes {
 		this.observeAccordions();
 		this.changeModalTitleToH2();
 		this.changeModalCloseBtnAriaLabel();
-		this.ChangeModelButtonsToH3();
+		this.changeModelButtonsToH3();
 
 		// Page
 		this.changeEmbedText();
 
 		return this;
+	}
+
+	// =====================================================================================
+	// ============================ Revisit content button =================================
+	// =====================================================================================
+
+	/**
+	 * A11y: Move the revisit button to the footer
+	 */
+	private moveRevisitButtonToFooter(): void {
+		const revisitButton = document.querySelector(this.REVISIT_BTN_WRAPPER_CSS);
+		const footer = document.querySelector('footer');
+
+		if (revisitButton && footer) {
+			footer.appendChild(revisitButton);
+		}
 	}
 
 	// =====================================================================================
@@ -252,7 +273,7 @@ export default class A11yCookieYes {
 	/**
 	 * A11y: Makes the buttons in the modal h3 elements
 	 */
-	private ChangeModelButtonsToH3(): void {
+	private changeModelButtonsToH3(): void {
 		const buttons = document.querySelectorAll(this.MODAL_ACCORDION_BTN_CSS);
 		buttons?.forEach((button: Element) => {
 			if(!button.parentElement) return;
