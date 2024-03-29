@@ -69,6 +69,11 @@ $ckRevisitConsentDefaultColor: #0056a7;
 		font-size: var(--a11y-cookie-yes-btn-font-size-banner) !important;
 		overflow: auto !important;
 	}
+
+	.#{$ckClass}-consent-bar {
+		max-height: 100vh;
+		overflow: auto;
+	}
 }
 
 /**
@@ -81,12 +86,12 @@ $ckRevisitConsentDefaultColor: #0056a7;
 }
 
 .#{$ckClass}-preference-body-wrapper {
-    min-height: 100px;
-    position: relative;
+	min-height: 100px;
+	position: relative;
 }
 
 .#{$ckClass}-preference-center {
-    overflow: auto !important;
+	overflow: auto !important;
 }
 
 /**
