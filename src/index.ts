@@ -1,24 +1,30 @@
 /**
  * @file The frontend class for the CookieYes accessibility improvements
- * @since 1.0.0
  * @module a11y-cookie-yes
  * @description trapping focus, transforming tags, changing aria-labels and more.
  *
  * @requires focus-trap
  * @requires a11y-cookie-yes/src/helpers/a11y-helpers
  * @author WybeBosch
- * @liscense MIT
  */
+
 import { transformTag, waitForElement, checkCanFocusTrap } from './helpers/a11y-helpers';
+import { GoogleConsentMode } from './google-consent-mode/index';
+
 import * as focusTrap from 'focus-trap';
 import './styles.scss';
 
+interface DefaultOptionsType {
+	googleConsentMode?: boolean;
+}
 // =====================================================================================
 // ================================ Class definitions ===================================
 // =====================================================================================
 export default class A11yCookieYes {
 	private static instance: A11yCookieYes = new A11yCookieYes();
-	private readonly options: {};
+	private options: DefaultOptionsType = {
+		googleConsentMode: false,
+	};
 
 	private REVISIT_BTN_WRAPPER_CSS: string = '.cky-btn-revisit-wrapper';
 
@@ -55,39 +61,21 @@ export default class A11yCookieYes {
 	// =====================================================================================
 	// ================================== Constructor ======================================
 	// =====================================================================================
-	constructor(options?: {}) {
-		this.options = options || {};
-		if (A11yCookieYes.instance) {
-			return A11yCookieYes.instance;
+	constructor(options?: DefaultOptionsType) {
+		// Support for both `new A11yCookieYes({option = true})` and `A11yCookieYes.getInstance()` syntax
+		if (!A11yCookieYes.instance) {
+			A11yCookieYes.instance = this;
+			this.options = { ...this.options, ...options };
+			this.init();
+		} else {
+			A11yCookieYes.instance.options = { ...A11yCookieYes.instance.options, ...options };
 		}
-
-		// trapOptions declared here since spreadoperator cant be used in class properties
-		this.focusTrapBannerOptions = {
-			...this.focusTrapOptions,
-			// By default CookieYes has the banner close button removed from the DOM, unless you enable the setting.
-			onDeactivate: () => this.closeCookieYes(this.BANNER_BTN_CLOSE_CSS),
-		};
-
-		this.focusTrapModalOptions = {
-			...this.focusTrapOptions,
-			onDeactivate: () => this.closeCookieYes(this.MODAL_BTN_CLOSE_CSS),
-		};
-
-		// Code is executed from init function because constructor cannot be async.
-		this.init();
-
-		A11yCookieYes.instance = this;
-	}
-
-	public static getInstance(): A11yCookieYes {
 		return A11yCookieYes.instance;
 	}
 
-	private closeCookieYes = (elementSelector: string) => {
-		const closeButton: HTMLButtonElement | null = document.querySelector(elementSelector);
-		if (!closeButton || closeButton.closest(this.COOKIE_YES_HIDDEN_CSS)) return;
-		closeButton.click();
-	};
+	public static getInstance(): A11yCookieYes {
+		return A11yCookieYes.instance || new A11yCookieYes();
+	}
 
 	// =====================================================================================
 	// ====================================== Init =========================================
@@ -96,9 +84,14 @@ export default class A11yCookieYes {
 		this.cookieBanner = (await waitForElement(this.COOKIE_BANNER_CSS)) as HTMLElement;
 		this.cookieModal = (await waitForElement(this.COOKIE_MODAL_CSS)) as HTMLElement;
 
+		if (this.options.googleConsentMode === true) {
+			new GoogleConsentMode();
+		}
+
 		// If the cookieBanner could not be found within 5 sec, dont execute rest of init();
 		if (!this.cookieBanner || !this.cookieModal) return false;
 
+		this.initFocusTrapOptions();
 		this.focusTrapBanner = focusTrap.createFocusTrap(
 			this.cookieBanner,
 			this.focusTrapBannerOptions
@@ -124,6 +117,28 @@ export default class A11yCookieYes {
 		this.changeEmbedText();
 
 		return this;
+	}
+
+	// =====================================================================================
+	// ================================= Focus trap ========================================
+	// =====================================================================================
+
+	private closeCookieYes = (elementSelector: string) => {
+		const closeButton: HTMLButtonElement | null = document.querySelector(elementSelector);
+		if (!closeButton || closeButton.closest(this.COOKIE_YES_HIDDEN_CSS)) return;
+		closeButton.click();
+	};
+
+	private initFocusTrapOptions() {
+		this.focusTrapBannerOptions = {
+			...this.focusTrapOptions,
+			onDeactivate: () => this.closeCookieYes(this.BANNER_BTN_CLOSE_CSS),
+		};
+
+		this.focusTrapModalOptions = {
+			...this.focusTrapOptions,
+			onDeactivate: () => this.closeCookieYes(this.MODAL_BTN_CLOSE_CSS),
+		};
 	}
 
 	// =====================================================================================
@@ -276,16 +291,15 @@ export default class A11yCookieYes {
 	private changeModelButtonsToH3(): void {
 		const buttons = document.querySelectorAll(this.MODAL_ACCORDION_BTN_CSS);
 		buttons?.forEach((button: Element) => {
-			if(!button.parentElement) return;
+			if (!button.parentElement) return;
 
 			const h3Element = document.createElement('h3');
 			h3Element.classList.add('cky-preference-title');
 			button.parentElement.insertBefore(h3Element, button);
 			h3Element.appendChild(button);
-		  
 		});
-	  }
-	  
+	}
+
 	// ====================================================================================
 	// ====================================== Page ========================================
 	// ====================================================================================
