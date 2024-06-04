@@ -2,7 +2,10 @@
 $ckClass: 'cky';
 $ckData: 'data-cky-tag';
 $ckDefaultColor: #1863dc;
+$ckDefaultColorPartialTextString: '#1863';
 $ckRevisitConsentDefaultColor: #0056a7;
+$ckRevisitConsentDefaultColorPartialTextString: '#0056';
+// Partials are because sometimes its capitalized and sometimes now.
 
 /**
 * Shared styles among CookieYes Components
@@ -32,8 +35,8 @@ $ckRevisitConsentDefaultColor: #0056a7;
 		border-radius: var(--a11y-cookie-yes-border-radius);
 
 		// If default cookieyes button color is used, we overwrite with website primary color
-		&[style*='-color:#{$ckDefaultColor}'] {
-			[style*='-color:#{$ckDefaultColor}'] &.#{$ckClass}-btn-customize,
+		&[style*='-color:#{$ckDefaultColorPartialTextString}'] {
+			[style*='-color:#{$ckDefaultColorPartialTextString}'] &.#{$ckClass}-btn-customize,
 			&.#{$ckClass}-btn-preferences,
 			&.#{$ckClass}-btn-customize {
 				border-color: var(--a11y-cookie-yes-btn-secondary-border-color) !important;
@@ -80,7 +83,7 @@ $ckRevisitConsentDefaultColor: #0056a7;
  * CookieYes minimized banner consent
  */
 .#{$ckClass}-btn-revisit-wrapper {
-	&[style*='color:#{$ckRevisitConsentDefaultColor}'] {
+	&[style*='color:#{$ckRevisitConsentDefaultColorPartialTextString}'] {
 		background-color: var(--a11y-cookie-yes-btn-primary-bg) !important;
 	}
 }
