@@ -97,10 +97,17 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 	overflow: auto !important;
 }
 
+
+
 /**
  * CookieYes Modal popup cookielist
  */
 .#{$ckClass}-modal {
+	// Change checkbox toggle to adhere 3:0 contrast ratio
+	.cky-switch input[type='checkbox']:not( :checked ) {
+		background-color: #878787 !important;
+	}
+
 	// Decrease cookielist category height.
 	.#{$ckClass}-accordion-header-des {
 		display: none;
