@@ -101,6 +101,7 @@ export default class A11yCookieYes {
 
 		// Revisit button
 		this.moveRevisitButtonToFooter();
+		this.emptyRevisitButtonAltText();
 
 		// Banner
 		this.observeBanner();
@@ -155,6 +156,17 @@ export default class A11yCookieYes {
 		if (revisitButton && footer) {
 			footer.appendChild(revisitButton);
 		}
+	}
+
+	/**
+	 * A11y: Empty the alt text of <img> in the revisit button. The button already has an aria-label,
+	 * so the alt text is redundant. It's also English and not translatable.
+	 */
+	private emptyRevisitButtonAltText(): void {
+		const revisitButton = document.querySelector(this.REVISIT_BTN_WRAPPER_CSS);
+		const img = revisitButton?.querySelector('img');
+		if (!img) return;
+		img.setAttribute('alt', '');
 	}
 
 	// =====================================================================================
