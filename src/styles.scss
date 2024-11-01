@@ -103,6 +103,15 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
  * CookieYes Modal popup cookielist
  */
 .#{$ckClass}-modal {
+	// Add display none to modal so Google crawlers are less likely to see it
+	display: none;
+	opacity: 0;
+
+	&.#{$ckClass}-modal-open {
+		display: flex;
+		opacity: 1;
+	}
+
 	// Change checkbox toggle to adhere 3:0 contrast ratio
 	.cky-switch input[type='checkbox']:not( :checked ) {
 		background-color: #878787 !important;
