@@ -31,6 +31,7 @@ export default class A11yCookieYes {
 	private EMBED_BLOCKER_NEW_CLASS_CSS: string = '.cky-banner-element';
 	private EMBED_BLOCKER_BUTTON_CSS: string = '[data-cky-tag="placeholder-title"]';
 	private COOKIE_YES_HIDDEN_CSS: string = '.cky-hide';
+	private BANNER_TITLE_ID: string = 'yard-cky-title';
 	private BANNER_TITLE_CSS: string = '.cky-title';
 	private BANNER_BTN_CLOSE_CSS: string = '.cky-banner-btn-close';
 
@@ -105,6 +106,7 @@ export default class A11yCookieYes {
 
 		// Banner
 		this.observeBanner();
+		this.changeBanner();
 		this.changeBannerTitleToH2();
 
 		// Modal
@@ -201,13 +203,23 @@ export default class A11yCookieYes {
 	}
 
 	/**
+	 * A11y: Add dialog role and aria-labelledby to the banner
+	 */
+	private changeBanner(): void {
+		this.cookieBanner?.setAttribute('role', 'dialog');
+		this.cookieBanner?.setAttribute('aria-labelledby', this.BANNER_TITLE_ID);
+	}
+
+	/**
 	 * A11y: transform modal title to h2
 	 */
 	private changeBannerTitleToH2(): void {
 		const title: HTMLParagraphElement | null = document.querySelector(this.BANNER_TITLE_CSS);
 		if (!title) return;
 
-		transformTag(title, 'h2');
+		const transformedTitle = transformTag(title, 'h2') as HTMLHeadingElement;
+
+		transformedTitle.id = this.BANNER_TITLE_ID;
 	}
 
 	// ====================================================================================
