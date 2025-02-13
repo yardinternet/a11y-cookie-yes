@@ -52,6 +52,39 @@ export class GoogleConsentMode {
 		gtag('set', 'url_passthrough', true);
 	}
 
+	private dataLayerWrapper(argument: any) {
+		if (!window.dataLayer) {
+			window.dataLayer = window.dataLayer || [];
+		}
+
+		window.dataLayer.push(argument);
+	}
+
+	private updateConsentAndPush(
+		consentObject: { [key: string]: string },
+		ads_data_redaction?: boolean
+	) {
+		// Set the new state on the window variables e.g. analytics_storage_yard
+		Object.entries(consentObject).forEach(([key, value]) => {
+			(window as any)[`${key}_yard`] = value;
+		});
+
+		// Manage sending the ads redaction state
+		let pushObject: { [key: string]: any } = {
+			...consentObject,
+			event: 'gtm_consent_update_yard',
+		};
+
+		if (ads_data_redaction === false) {
+			gtag('set', 'ads_data_redaction', false);
+			pushObject = { ...pushObject, ads_data_redaction: false };
+		}
+
+		// Send both gtag and dataLayer events
+		gtag('consent', 'update', consentObject);
+		this.dataLayerWrapper(pushObject);
+	}
+
 	private initialPageLoad() {
 		const cookies = parseCookies(document.cookie);
 		const consentCookie = cookies['cookieyes-consent'];
@@ -61,11 +94,9 @@ export class GoogleConsentMode {
 		if (!consentDetails.action) return;
 
 		const gtagConsent = this.matchCookieYesConsentToGtag(consentDetails);
-		gtag('consent', 'update', gtagConsent);
 
-		if (consentDetails.advertisement === 'yes') {
-			gtag('set', 'ads_data_redaction', false);
-		}
+		const redactAds = consentDetails.advertisement === 'yes' ? false : true;
+		this.updateConsentAndPush(gtagConsent, redactAds);
 	}
 
 	private laterCookieChange() {
@@ -83,7 +114,6 @@ export class GoogleConsentMode {
 
 			if (!(changes.length > 0)) return;
 			if (changes[0]['category'].match(/^(action|consent)$/)) return;
-
 			this.updateSpecificGtagConsent(changes);
 		});
 	}
@@ -91,11 +121,9 @@ export class GoogleConsentMode {
 	private updateSpecificGtagConsent(changes: any[]) {
 		changes.forEach((change) => {
 			const newGtag = this.matchCookieYesConsentToGtag({ [change.category]: change.newValue });
-			gtag('consent', 'update', newGtag);
-
-			if (change.category == 'advertisement' && change.newValue == 'yes') {
-				gtag('set', 'ads_data_redaction', false);
-			}
+			const redactAds =
+				change.category == 'advertisement' && change.newValue == 'yes' ? false : true;
+			this.updateConsentAndPush(newGtag, redactAds);
 		});
 	}
 
