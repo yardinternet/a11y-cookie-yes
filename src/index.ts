@@ -38,6 +38,7 @@ export default class A11yCookieYes {
 	private MODAL_OPEN_CSS: string = '.cky-modal-open';
 	private MODAL_BTN_CLOSE_CSS: string = '.cky-modal .cky-btn-close';
 	private MODAL_BTN_CLOSE_ARIA_LABEL: string = 'Sluit';
+	private MODAL_TITLE_ID: string = 'yard-cky-modal-title';
 	private MODAL_TITLE_CSS: string = '.cky-preference-title';
 	private MODAL_ACCORDION_CSS: string = '.cky-accordion';
 	private MODAL_ACCORDION_BTN_CSS: string = '.cky-accordion-btn';
@@ -112,6 +113,7 @@ export default class A11yCookieYes {
 
 		// Modal
 		this.observeModal();
+		this.changeModal();
 		this.observeAccordions();
 		this.changeModalTitleToH2();
 		this.changeModalCloseBtnAriaLabel();
@@ -274,6 +276,14 @@ export default class A11yCookieYes {
 	}
 
 	/**
+	 * A11y: Add dialog role and aria-labelledby to the modal
+	 */
+	private changeModal(): void {
+		this.cookieModal?.setAttribute('role', 'dialog');
+		this.cookieModal?.setAttribute('aria-labelledby', this.MODAL_TITLE_ID);
+	}
+
+	/**
 	 * A11y: observe accordions for changes to update aria-expanded
 	 */
 	private observeAccordions(): void {
@@ -307,7 +317,9 @@ export default class A11yCookieYes {
 	private changeModalTitleToH2(): void {
 		const title: HTMLSpanElement | null = document.querySelector(this.MODAL_TITLE_CSS);
 		if (!title) return;
-		transformTag(title, 'h2');
+		const transformedTitle = transformTag(title, 'h2') as HTMLHeadingElement;
+
+		transformedTitle.id = this.MODAL_TITLE_ID;
 	}
 
 	/**
