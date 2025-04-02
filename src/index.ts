@@ -42,6 +42,7 @@ export default class A11yCookieYes {
 	private MODAL_ACCORDION_CSS: string = '.cky-accordion';
 	private MODAL_ACCORDION_BTN_CSS: string = '.cky-accordion-btn';
 	private MODAL_ACCORDION_OPEN_CSS: string = '.cky-accordion-active';
+	private MODAL_CHECKBOXES_CSS: string = '.cky-switch input[type="checkbox"]';
 
 	private COOKIE_BANNER_CSS: string = '.cky-consent-container';
 	private COOKIE_MODAL_CSS: string = '.cky-modal';
@@ -115,6 +116,7 @@ export default class A11yCookieYes {
 		this.changeModalTitleToH2();
 		this.changeModalCloseBtnAriaLabel();
 		this.changeModelButtonsToH3();
+		this.addCheckboxRoleSwitch();
 
 		// Page
 		this.changeEmbedText();
@@ -329,6 +331,23 @@ export default class A11yCookieYes {
 			h3Element.classList.add('cky-preference-title');
 			button.parentElement.insertBefore(h3Element, button);
 			h3Element.appendChild(button);
+		});
+	}
+
+	/**
+	 * A11y: Change the role of the checkboxes to switch
+	 */
+	private addCheckboxRoleSwitch(): void {
+		const checkboxes: NodeListOf<HTMLInputElement> = document.querySelectorAll(
+			this.MODAL_CHECKBOXES_CSS
+		);
+
+		checkboxes?.forEach((checkbox: HTMLInputElement) => {
+			if (checkbox.hasAttribute('role')) {
+				checkbox.removeAttribute('role');
+			}
+
+			checkbox.setAttribute('role', 'switch');
 		});
 	}
 
