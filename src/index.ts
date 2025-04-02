@@ -384,19 +384,12 @@ export default class A11yCookieYes {
 
 			if (!button || !checkbox) return;
 
-			if (checkbox.hasAttribute('aria-label') && button.hasAttribute('aria-label')) {
-				checkbox.setAttribute('aria-label', button.getAttribute('aria-label') as string);
-			}
+			this.syncAriaLabel(button, checkbox);
 
 			const observer = new MutationObserver((mutations: MutationRecord[]) => {
 				mutations.forEach((mutation: MutationRecord) => {
 					if (mutation.type === 'attributes' && mutation.attributeName === 'aria-label') {
-						if (checkbox.hasAttribute('aria-label') && button.hasAttribute('aria-label')) {
-							const newLabel = button.getAttribute('aria-label') as string;
-							if (checkbox.getAttribute('aria-label') !== newLabel) {
-								checkbox.setAttribute('aria-label', newLabel);
-							}
-						}
+						this.syncAriaLabel(button, checkbox);
 					}
 				});
 			});
@@ -405,6 +398,13 @@ export default class A11yCookieYes {
 				attributeFilter: ['aria-label'],
 			});
 		});
+	}
+
+	private syncAriaLabel(button: HTMLButtonElement, checkbox: HTMLInputElement): void {
+		const buttonLabel = button.getAttribute('aria-label');
+		if (buttonLabel && checkbox.getAttribute('aria-label') !== buttonLabel) {
+			checkbox.setAttribute('aria-label', buttonLabel);
+		}
 	}
 
 	// ====================================================================================
