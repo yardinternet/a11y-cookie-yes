@@ -211,13 +211,21 @@ export default class A11yCookieYes {
 	}
 
 	/**
-	 * A11y: transform modal title to h2
+	 * A11y: transform modal title to h2 and remove unnecessary role and aria-level
 	 */
 	private changeBannerTitleToH2(): void {
 		const title: HTMLParagraphElement | null = document.querySelector(this.BANNER_TITLE_CSS);
 		if (!title) return;
 
 		const transformedTitle = transformTag(title, 'h2') as HTMLHeadingElement;
+
+		if (transformedTitle.hasAttribute('role')) {
+			transformedTitle.removeAttribute('role');
+		}
+
+		if (transformedTitle.hasAttribute('aria-level')) {
+			transformedTitle.removeAttribute('aria-level');
+		}
 
 		transformedTitle.id = this.BANNER_TITLE_ID;
 	}
