@@ -319,6 +319,14 @@ export default class A11yCookieYes {
 		if (!title) return;
 		const transformedTitle = transformTag(title, 'h2') as HTMLHeadingElement;
 
+		if (transformedTitle.hasAttribute('role')) {
+			transformedTitle.removeAttribute('role');
+		}
+
+		if (transformedTitle.hasAttribute('aria-level')) {
+			transformedTitle.removeAttribute('aria-level');
+		}
+
 		transformedTitle.id = this.MODAL_TITLE_ID;
 	}
 
