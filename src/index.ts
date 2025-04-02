@@ -117,6 +117,7 @@ export default class A11yCookieYes {
 		this.changeModalCloseBtnAriaLabel();
 		this.changeModelButtonsToH3();
 		this.addCheckboxRoleSwitch();
+		this.changeCheckboxAriaLabel();
 
 		// Page
 		this.changeEmbedText();
@@ -348,6 +349,41 @@ export default class A11yCookieYes {
 			}
 
 			checkbox.setAttribute('role', 'switch');
+		});
+	}
+
+	/**
+	 * A11y: Change the aria-label of the checkboxes to match the aria-label of the button
+	 */
+	private changeCheckboxAriaLabel(): void {
+		const accordions: NodeListOf<HTMLElement> = document.querySelectorAll(this.MODAL_ACCORDION_CSS);
+
+		accordions?.forEach((wrapper: HTMLElement): void => {
+			const button: HTMLButtonElement | null = wrapper.querySelector(this.MODAL_ACCORDION_BTN_CSS);
+			const checkbox: HTMLInputElement | null = wrapper.querySelector(this.MODAL_CHECKBOXES_CSS);
+
+			if (!button || !checkbox) return;
+
+			if (checkbox.hasAttribute('aria-label') && button.hasAttribute('aria-label')) {
+				checkbox.setAttribute('aria-label', button.getAttribute('aria-label') as string);
+			}
+
+			const observer = new MutationObserver((mutations: MutationRecord[]) => {
+				mutations.forEach((mutation: MutationRecord) => {
+					if (mutation.type === 'attributes' && mutation.attributeName === 'aria-label') {
+						if (checkbox.hasAttribute('aria-label') && button.hasAttribute('aria-label')) {
+							const newLabel = button.getAttribute('aria-label') as string;
+							if (checkbox.getAttribute('aria-label') !== newLabel) {
+								checkbox.setAttribute('aria-label', newLabel);
+							}
+						}
+					}
+				});
+			});
+
+			observer.observe(checkbox, {
+				attributeFilter: ['aria-label'],
+			});
 		});
 	}
 
