@@ -373,7 +373,7 @@ export default class A11yCookieYes {
 	}
 
 	/**
-	 * A11y: Change the aria-label of the checkboxes to match the aria-label of the button
+	 * A11y: Change the aria-label of the checkboxes based on state
 	 */
 	private changeCheckboxAriaLabel(): void {
 		const accordions: NodeListOf<HTMLElement> = document.querySelectorAll(this.MODAL_ACCORDION_CSS);
@@ -386,25 +386,23 @@ export default class A11yCookieYes {
 
 			this.syncAriaLabel(button, checkbox);
 
-			const observer = new MutationObserver((mutations: MutationRecord[]) => {
-				mutations.forEach((mutation: MutationRecord) => {
-					if (mutation.type === 'attributes' && mutation.attributeName === 'aria-label') {
-						this.syncAriaLabel(button, checkbox);
-					}
-				});
-			});
-
-			observer.observe(checkbox, {
-				attributeFilter: ['aria-label'],
+			checkbox.addEventListener('change', () => {
+				this.syncAriaLabel(button, checkbox);
 			});
 		});
 	}
 
 	private syncAriaLabel(button: HTMLButtonElement, checkbox: HTMLInputElement): void {
-		const buttonLabel = button.getAttribute('aria-label');
-		if (buttonLabel && checkbox.getAttribute('aria-label') !== buttonLabel) {
-			checkbox.setAttribute('aria-label', buttonLabel);
-		}
+		const baseLabel =
+			button.getAttribute('aria-label') || button.textContent?.trim() || 'Categorie';
+
+		const isChecked = checkbox.checked;
+
+		const label = isChecked
+			? `${baseLabel} ingeschakeld, zet ${baseLabel.toLowerCase()} uit`
+			: `${baseLabel} uitgeschakeld, zet ${baseLabel.toLowerCase()} aan`;
+
+		checkbox.setAttribute('aria-label', label);
 	}
 
 	// ====================================================================================
