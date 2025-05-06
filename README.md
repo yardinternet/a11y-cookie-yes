@@ -83,21 +83,21 @@ Hook::filter('render_block', 'App\Actions\Gutenberg@changeEmbedURL', 10, 3);
 List of current styling options that can be overwritten:
 
 ```scss
- --a11y-cookie-yes-primary-color: #{$ckDefaultColor};
- --a11y-cookie-yes-border-radius: 5px;
- --a11y-cookie-yes-button-font-size-all: 1rem;
- --a11y-cookie-yes-button-font-size-banner: 0.95rem;
- --a11y-cookie-yes-button-primary-color-bg: var(--a11y-cookieyes-primary-color);
- --a11y-cookie-yes-button-primary-color-txt: #ffffff;
- --a11y-cookie-yes-button-primary-color-border: var(--a11y-cookieyes-primary-color);
- --a11y-cookie-yes-button-secondary-color-bg: transparent;
- --a11y-cookie-yes-button-secondary-color-txt: var(--a11y-cookieyes-primary-color);
- --a11y-cookie-yes-button-secondary-color-border: var(--a11y-cookieyes-primary-color);
- --a11y-cookie-yes-blocked-embed-background: #f2f2f2;
- --a11y-cookie-yes-vimeo-icon-font-family: 'Font Awesome 6 Brands';
- --a11y-cookie-yes-vimeo-icon-color: #01adef;
- --a11y-cookie-yes-vimeo-icon-size: 5rem;
- --a11y-cookie-yes-vimeo-icon-code: '\f27d';
+	--a11y-cookie-yes-primary-color: #{$ckDefaultColor};
+	--a11y-cookie-yes-border-radius: 5px;
+	--a11y-cookie-yes-btn-font-size: 1rem;
+	--a11y-cookie-yes-btn-font-size-banner: 0.95rem;
+	--a11y-cookie-yes-btn-primary-bg: var(--a11y-cookie-yes-primary-color);
+	--a11y-cookie-yes-btn-primary-txt-color: #fff;
+	--a11y-cookie-yes-btn-primary-border-color: var(--a11y-cookie-yes-primary-color);
+	--a11y-cookie-yes-btn-secondary-bg: transparent;
+	--a11y-cookie-yes-btn-secondary-txt-color: var(--a11y-cookie-yes-primary-color);
+	--a11y-cookie-yes-btn-secondary-border-color: var(--a11y-cookie-yes-primary-color);
+	--a11y-cookie-yes-blocked-embed-bg: #f2f2f2;
+	--a11y-cookie-yes-vimeo-icon-font-family: 'Font Awesome 6 Brands';
+	--a11y-cookie-yes-vimeo-icon-color: #01adef;
+	--a11y-cookie-yes-vimeo-icon-size: 5rem;
+	--a11y-cookie-yes-vimeo-icon-unicode: '\f27d';
 ```
 
 ## 👷‍♀️ Package development
