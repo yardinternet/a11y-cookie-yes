@@ -38,6 +38,9 @@ export default class A11yCookieYes {
 	private MODAL_OPEN_CSS: string = '.cky-modal-open';
 	private MODAL_BTN_CLOSE_CSS: string = '.cky-modal .cky-btn-close';
 	private MODAL_BTN_CLOSE_ARIA_LABEL: string = 'Sluit';
+	private MODAL_CONTENT_WRAPPER_CLASS: string = '.cky-preference-content-wrapper';
+	private MODAL_CONTENT_ID: string = 'a11y-cookie-yes-description-content';
+	private MODAL_CONTENT_TOGGLE_BUTTON_CLASSES: string = '.cky-show-desc-btn, .cky-hide-desc-btn';
 	private MODAL_TITLE_ID: string = 'yard-cky-modal-title';
 	private MODAL_TITLE_CSS: string = '.cky-preference-title';
 	private MODAL_ACCORDION_CSS: string = '.cky-accordion';
@@ -114,6 +117,7 @@ export default class A11yCookieYes {
 		// Modal
 		this.observeModal();
 		this.changeModal();
+		this.observeShowMoreLessDescription();
 		this.observeAccordions();
 		this.changeModalTitleToH2();
 		this.changeModalCloseBtnAriaLabel();
@@ -281,6 +285,30 @@ export default class A11yCookieYes {
 	private changeModal(): void {
 		this.cookieModal?.setAttribute('role', 'dialog');
 		this.cookieModal?.setAttribute('aria-labelledby', this.MODAL_TITLE_ID);
+	}
+
+	/**
+	 * A11y: observe the show more/less description button and set aria-controls to the button
+	 */
+	private observeShowMoreLessDescription(): void {
+		const wrapper = document.querySelector<HTMLElement>(this.MODAL_CONTENT_WRAPPER_CLASS);
+		if (!wrapper) return;
+
+		wrapper.id ||= this.MODAL_CONTENT_ID;
+
+		const setAriaControls = () => {
+			const button = wrapper.querySelector<HTMLButtonElement>(
+				this.MODAL_CONTENT_TOGGLE_BUTTON_CLASSES
+			);
+			if (button) button.setAttribute('aria-controls', wrapper.id);
+		};
+
+		setAriaControls();
+
+		new MutationObserver(setAriaControls).observe(wrapper, {
+			childList: true,
+			subtree: true,
+		});
 	}
 
 	/**
