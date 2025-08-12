@@ -113,6 +113,7 @@ export default class A11yCookieYes {
 		this.observeBanner();
 		this.changeBanner();
 		this.changeBannerTitleToH2();
+		this.closeBannerOnEscapeKey();
 
 		// Modal
 		this.observeModal();
@@ -237,6 +238,22 @@ export default class A11yCookieYes {
 		}
 
 		transformedTitle.id = this.BANNER_TITLE_ID;
+	}
+
+	/**
+	 * A11y: Close the banner on escape key press when the focus is in the banner
+	 */
+	private closeBannerOnEscapeKey(): void {
+		if (!this.cookieBanner) return;
+		this.cookieBanner.addEventListener('keydown', (event: KeyboardEvent) => {
+			if (event.key === 'Escape' || event.key === 'Esc') {
+				if (!this.cookieBanner) return;
+
+				this.cookieBanner.classList.add(this.COOKIE_YES_HIDDEN_CSS.substring(1));
+				this.focusTrapBanner?.deactivate();
+				this.closeCookieYes(this.BANNER_BTN_CLOSE_CSS);
+			}
+		});
 	}
 
 	// ====================================================================================
