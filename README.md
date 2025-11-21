@@ -21,7 +21,6 @@ document.addEventListener( 'DOMContentLoaded', function () {
    new A11yCookieYes( {
      googleConsentMode: true,
 } );
-} );
 ```
 
 ## Step 3 (optional): Import CSS files
