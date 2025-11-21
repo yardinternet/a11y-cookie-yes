@@ -18,7 +18,9 @@ npm install --save @yardinternet/a11y-cookie-yes
 import A11yCookieYes from '@yardinternet/a11y-cookie-yes';
 
 document.addEventListener( 'DOMContentLoaded', function () {
-   A11yCookieYes.getInstance();
+   new A11yCookieYes( {
+     googleConsentMode: true,
+} );
 } );
 ```
 
