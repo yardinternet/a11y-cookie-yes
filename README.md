@@ -117,3 +117,7 @@ We have chosen to use ESM, since its a smaller format than CSJ, but it does mean
 4. Click "Publish release"
 
 The Github Workflow `release-package.yml` will run whenever a release is created in this repository. If the tests pass, then the package will be published to Github packages.
+
+## About us
+
+[![banner](https://raw.githubusercontent.com/yardinternet/.github/refs/heads/main/profile/assets/small-banner-github.svg)](https://www.yard.nl/werken-bij/)
