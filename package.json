@@ -7,7 +7,7 @@
 		"YvetteNikolov",
 		"joshuaYard"
 	],
-	"license": "MIT",
+    "license": "EUPL-1.2",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/yardinternet/a11y-cookie-yes.git"
