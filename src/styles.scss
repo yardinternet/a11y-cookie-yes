@@ -95,6 +95,12 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 
 .#{$ckClass}-preference-center {
 	overflow: auto !important;
+
+	.#{$ckClass}-preference-body-wrapper {
+		@media (max-height: 480px) {
+			overflow: auto;
+		}
+	}
 }
 
 /**
