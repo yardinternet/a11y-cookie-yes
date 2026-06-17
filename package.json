@@ -7,48 +7,41 @@
 		"YvetteNikolov",
 		"joshuaYard"
 	],
-    "license": "EUPL-1.2",
+	"license": "EUPL-1.2",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/yardinternet/a11y-cookie-yes.git"
 	},
-	"main": "dist/index.js",
-	"module": "dist/a11y-cookie-yes.esm.js",
+	"main": "dist/a11y-cookie-yes.js",
+	"module": "dist/a11y-cookie-yes.js",
+	"types": "dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/a11y-cookie-yes.js"
+		}
+	},
 	"publishConfig": {
 		"registry": "https://npm.pkg.github.com/@yardinternet"
 	},
-	"typings": "dist/index.d.ts",
 	"files": [
 		"dist",
 		"src"
 	],
 	"scripts": {
-		"build": "dts build --format esm",
-		"lint": "dts lint",
-		"prepare": "dts build",
-		"start": "dts watch --format esm",
-		"start-multi": "dts watch --format cjs,esm",
-		"test": "dts test"
-	},
-	"jest": {
-		"testEnvironment": "node"
+		"start": "vite build --watch",
+		"build": "vite build",
+		"prepack": "vite build",
+		"test": "echo \"No tests yet\" && exit 0"
 	},
 	"engines": {
 		"node": ">=18"
 	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "dts lint"
-		}
-	},
 	"devDependencies": {
-		"@tsconfig/recommended": "^1.0.2",
-		"dts-cli": "^2.0.2",
-		"husky": "^8.0.3",
-		"rollup-plugin-scss": "^4.0.0",
+		"@yardinternet/ts-config": "^1.1.1",
+		"@yardinternet/vite-config": "^1.3.0",
 		"sass": "^1.67.0",
-		"tslib": "^2.5.0",
-		"typescript": "^5.0.4"
+		"typescript": "^5.0.4",
+		"vite": "^7.3.5"
 	},
 	"dependencies": {
 		"focus-trap": "^7.4"
@@ -56,5 +49,12 @@
 	"overrides": {
 		"serialize-javascript": "^7.0.3",
 		"@tootallnate/once": "^3.0.1"
-	}
+	},
+	"pnpm": {
+		"overrides": {
+			"serialize-javascript": "^7.0.3",
+			"@tootallnate/once": "^3.0.1"
+		}
+	},
+	"packageManager": "pnpm@10.17.1+sha512.17c560fca4867ae9473a3899ad84a88334914f379be46d455cbf92e5cf4b39d34985d452d2583baf19967fa76cb5c17bc9e245529d0b98745721aa7200ecaf7a"
 }

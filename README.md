@@ -103,11 +103,15 @@ List of current styling options that can be overwritten:
 
 ## 👷‍♀️ Package development
 
-1. Run `npm link` inside this project.
-2. Run `npm link @yardinternet/a11y-cookie-yes` inside the project or theme. This will create a symbolic link to the project folder.
-3. Run `npm run start` inside this project AND the equivalent script inside the project or theme.
-Note: Its important for the DTS-CLI to only output 1 format type, otherwise the live reloading wont work properly.
-We have chosen to use ESM, since its a smaller format than CSJ, but it does mean we don't support using this package with "require".
+This package is built with [Vite](https://vitejs.dev/) (library mode) via `@yardinternet/vite-config`. It outputs ESM only, so it can't be used with `require`.
+
+1. Run `pnpm install` inside this project.
+2. Run `pnpm start` to build in watch mode.
+3. To test it inside a project/theme, point the consumer at this folder with a pnpm override, e.g. in the consumer's `package.json`:
+   ```json
+   "pnpm": { "overrides": { "@yardinternet/a11y-cookie-yes": "link:../path/to/a11y-cookie-yes" } }
+   ```
+   then run `pnpm install` in the consumer.
 
 ## 🚀 How to publish
 
