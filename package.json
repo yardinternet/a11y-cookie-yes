@@ -42,7 +42,7 @@
 		"node": ">=18"
 	},
 	"devDependencies": {
-		"@yardinternet/eslint-config": "^1.2.11",
+		"@yardinternet/eslint-config": "^1.2.12",
 		"@yardinternet/prettier-config": "^2.0.11",
 		"@yardinternet/stylelint-config": "^1.1.8",
 		"@yardinternet/toolkit": "^2.1.10",
