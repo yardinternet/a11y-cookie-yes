@@ -13,7 +13,9 @@ export const transformTag = (element: Element, transformTo: string) => {
 	transformedElement.innerHTML = element.innerHTML;
 
 	for (let i = 0; i < element.attributes.length; i++) {
-		transformedElement.setAttribute(element.attributes[i].name, element.attributes[i].value);
+		const attribute = element.attributes[i];
+		if (!attribute) continue;
+		transformedElement.setAttribute(attribute.name, attribute.value);
 	}
 
 	if (!element.parentNode) return transformedElement;
@@ -44,7 +46,7 @@ export const waitForElement = (
 
 			if (hasElements) {
 				clearInterval(interval);
-				resolve(isSingleElement ? elements[0] : elements);
+				resolve(isSingleElement ? (elements[0] ?? null) : elements);
 			} else if (Date.now() - startTime >= maxTimeToSearch) {
 				clearInterval(interval);
 				// Should be reject(); but that wont silently fail which is what we want.
