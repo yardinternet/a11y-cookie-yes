@@ -67,9 +67,9 @@ export default class A11yCookieYes {
 	// =====================================================================================
 	// ================================== Constructor ======================================
 	// =====================================================================================
-	constructor(options?: DefaultOptionsType) {
+	constructor( options?: DefaultOptionsType ) {
 		// Support for both `new A11yCookieYes({option = true})` and `A11yCookieYes.getInstance()` syntax
-		if (!A11yCookieYes.instance) {
+		if ( ! A11yCookieYes.instance ) {
 			A11yCookieYes.instance = this;
 			this.options = { ...this.options, ...options };
 			this.init();
@@ -87,15 +87,15 @@ export default class A11yCookieYes {
 	// ====================================== Init =========================================
 	// =====================================================================================
 	public async init() {
-		this.cookieBanner = (await waitForElement(this.COOKIE_BANNER_CSS)) as HTMLElement;
-		this.cookieModal = (await waitForElement(this.COOKIE_MODAL_CSS)) as HTMLElement;
+		this.cookieBanner = ( await waitForElement( this.COOKIE_BANNER_CSS ) ) as HTMLElement;
+		this.cookieModal = ( await waitForElement( this.COOKIE_MODAL_CSS ) ) as HTMLElement;
 
-		if (this.options.googleConsentMode === true) {
+		if ( this.options.googleConsentMode === true ) {
 			new GoogleConsentMode();
 		}
 
 		// If the cookieBanner could not be found within 5 sec, dont execute rest of init();
-		if (!this.cookieBanner || !this.cookieModal) return false;
+		if ( ! this.cookieBanner || ! this.cookieModal ) return false;
 
 		this.initFocusTrapOptions();
 		this.focusTrapBanner = focusTrap.createFocusTrap(
@@ -139,21 +139,21 @@ export default class A11yCookieYes {
 	// ================================= Focus trap ========================================
 	// =====================================================================================
 
-	private closeCookieYes = (elementSelector: string) => {
-		const closeButton: HTMLButtonElement | null = document.querySelector(elementSelector);
-		if (!closeButton || closeButton.closest(this.COOKIE_YES_HIDDEN_CSS)) return;
+	private closeCookieYes = ( elementSelector: string ) => {
+		const closeButton: HTMLButtonElement | null = document.querySelector( elementSelector );
+		if ( ! closeButton || closeButton.closest( this.COOKIE_YES_HIDDEN_CSS ) ) return;
 		closeButton.click();
 	};
 
 	private initFocusTrapOptions() {
 		this.focusTrapBannerOptions = {
 			...this.focusTrapOptions,
-			onDeactivate: () => this.closeCookieYes(this.BANNER_BTN_CLOSE_CSS),
+			onDeactivate: () => this.closeCookieYes( this.BANNER_BTN_CLOSE_CSS ),
 		};
 
 		this.focusTrapModalOptions = {
 			...this.focusTrapOptions,
-			onDeactivate: () => this.closeCookieYes(this.MODAL_BTN_CLOSE_CSS),
+			onDeactivate: () => this.closeCookieYes( this.MODAL_BTN_CLOSE_CSS ),
 		};
 	}
 
@@ -165,11 +165,11 @@ export default class A11yCookieYes {
 	 * A11y: Move the revisit button to the footer
 	 */
 	private moveRevisitButtonToFooter(): void {
-		const revisitButton = document.querySelector(this.REVISIT_BTN_WRAPPER_CSS);
-		const footer = document.querySelector('footer');
+		const revisitButton = document.querySelector( this.REVISIT_BTN_WRAPPER_CSS );
+		const footer = document.querySelector( 'footer' );
 
-		if (revisitButton && footer) {
-			footer.appendChild(revisitButton);
+		if ( revisitButton && footer ) {
+			footer.appendChild( revisitButton );
 		}
 	}
 
@@ -178,10 +178,10 @@ export default class A11yCookieYes {
 	 * so the alt text is redundant. It's also English and not translatable.
 	 */
 	private emptyRevisitButtonAltText(): void {
-		const revisitButton = document.querySelector(this.REVISIT_BTN_WRAPPER_CSS);
-		const img = revisitButton?.querySelector('img');
-		if (!img) return;
-		img.setAttribute('alt', '');
+		const revisitButton = document.querySelector( this.REVISIT_BTN_WRAPPER_CSS );
+		const img = revisitButton?.querySelector( 'img' );
+		if ( ! img ) return;
+		img.setAttribute( 'alt', '' );
 	}
 
 	// =====================================================================================
@@ -193,7 +193,7 @@ export default class A11yCookieYes {
 	 */
 	private observeBanner(): void {
 		// Check if cookiebanner is currently visible
-		if (this.cookieBanner?.classList.contains(this.COOKIE_YES_HIDDEN_CSS.substring(1))) {
+		if ( this.cookieBanner?.classList.contains( this.COOKIE_YES_HIDDEN_CSS.substring( 1 ) ) ) {
 			this.focusTrapBanner?.deactivate();
 			return;
 		}
@@ -201,45 +201,45 @@ export default class A11yCookieYes {
 		this.focusTrapBanner?.activate();
 
 		// Check if the banner stays visible
-		const observer = new MutationObserver((mutations: MutationRecord[]) => {
-			mutations.forEach((mutation: MutationRecord) => {
-				const bannerIsHidden = (mutation.target as HTMLElement).classList.contains(
-					this.COOKIE_YES_HIDDEN_CSS.substring(1)
+		const observer = new MutationObserver( ( mutations: MutationRecord[] ) => {
+			mutations.forEach( ( mutation: MutationRecord ) => {
+				const bannerIsHidden = ( mutation.target as HTMLElement ).classList.contains(
+					this.COOKIE_YES_HIDDEN_CSS.substring( 1 )
 				);
-				if (mutation.attributeName === 'class' && bannerIsHidden) {
+				if ( mutation.attributeName === 'class' && bannerIsHidden ) {
 					this.focusTrapBanner?.deactivate();
 				} else {
 					this.focusTrapBanner?.activate();
 				}
-			});
-		});
+			} );
+		} );
 
-		observer.observe(this.cookieBanner as HTMLElement, { attributes: true });
+		observer.observe( this.cookieBanner as HTMLElement, { attributes: true } );
 	}
 
 	/**
 	 * A11y: Add dialog role and aria-labelledby to the banner
 	 */
 	private changeBanner(): void {
-		this.cookieBanner?.setAttribute('role', 'dialog');
-		this.cookieBanner?.setAttribute('aria-labelledby', this.BANNER_TITLE_ID);
+		this.cookieBanner?.setAttribute( 'role', 'dialog' );
+		this.cookieBanner?.setAttribute( 'aria-labelledby', this.BANNER_TITLE_ID );
 	}
 
 	/**
 	 * A11y: transform modal title to h2 and remove unnecessary role and aria-level
 	 */
 	private changeBannerTitleToH2(): void {
-		const title: HTMLParagraphElement | null = document.querySelector(this.BANNER_TITLE_CSS);
-		if (!title) return;
+		const title: HTMLParagraphElement | null = document.querySelector( this.BANNER_TITLE_CSS );
+		if ( ! title ) return;
 
-		const transformedTitle = transformTag(title, 'h2') as HTMLHeadingElement;
+		const transformedTitle = transformTag( title, 'h2' ) as HTMLHeadingElement;
 
-		if (transformedTitle.hasAttribute('role')) {
-			transformedTitle.removeAttribute('role');
+		if ( transformedTitle.hasAttribute( 'role' ) ) {
+			transformedTitle.removeAttribute( 'role' );
 		}
 
-		if (transformedTitle.hasAttribute('aria-level')) {
-			transformedTitle.removeAttribute('aria-level');
+		if ( transformedTitle.hasAttribute( 'aria-level' ) ) {
+			transformedTitle.removeAttribute( 'aria-level' );
 		}
 
 		transformedTitle.id = this.BANNER_TITLE_ID;
@@ -249,16 +249,16 @@ export default class A11yCookieYes {
 	 * A11y: Close the banner on escape key press when the focus is in the banner
 	 */
 	private closeBannerOnEscapeKey(): void {
-		if (!this.cookieBanner) return;
-		this.cookieBanner.addEventListener('keydown', (event: KeyboardEvent) => {
-			if (event.key === 'Escape' || event.key === 'Esc') {
-				if (!this.cookieBanner) return;
+		if ( ! this.cookieBanner ) return;
+		this.cookieBanner.addEventListener( 'keydown', ( event: KeyboardEvent ) => {
+			if ( event.key === 'Escape' || event.key === 'Esc' ) {
+				if ( ! this.cookieBanner ) return;
 
-				this.cookieBanner.classList.add(this.COOKIE_YES_HIDDEN_CSS.substring(1));
+				this.cookieBanner.classList.add( this.COOKIE_YES_HIDDEN_CSS.substring( 1 ) );
 				this.focusTrapBanner?.deactivate();
-				this.closeCookieYes(this.BANNER_BTN_CLOSE_CSS);
+				this.closeCookieYes( this.BANNER_BTN_CLOSE_CSS );
 			}
-		});
+		} );
 	}
 
 	// ====================================================================================
@@ -269,116 +269,116 @@ export default class A11yCookieYes {
 	 * A11y: Observes the cookie modal for changes
 	 */
 	private observeModal(): void {
-		if (!this.cookieModal) return;
+		if ( ! this.cookieModal ) return;
 
-		const observer = new MutationObserver((mutations: MutationRecord[]) => {
-			mutations.forEach((mutation: MutationRecord) => {
+		const observer = new MutationObserver( ( mutations: MutationRecord[] ) => {
+			mutations.forEach( ( mutation: MutationRecord ) => {
 				const targetElement = mutation.target as HTMLElement;
-				if (mutation.attributeName === 'class') {
+				if ( mutation.attributeName === 'class' ) {
 					// If the modal opens
 					if (
 						mutation.attributeName === 'class' &&
-						targetElement.classList.contains(this.MODAL_OPEN_CSS.substring(1))
+						targetElement.classList.contains( this.MODAL_OPEN_CSS.substring( 1 ) )
 					) {
-						setTimeout(() => {
+						setTimeout( () => {
 							this.focusTrapModal.activate();
-						}, 200);
+						}, 200 );
 					}
 
 					// If the modal closes
 					if (
 						mutation.attributeName === 'class' &&
-						!targetElement.classList.contains(this.MODAL_OPEN_CSS.substring(1))
+						! targetElement.classList.contains( this.MODAL_OPEN_CSS.substring( 1 ) )
 					) {
 						this.focusTrapModal?.deactivate();
 					}
 				}
-			});
-		});
+			} );
+		} );
 
-		observer.observe(this.cookieModal, {
+		observer.observe( this.cookieModal, {
 			attributes: true,
-		});
+		} );
 	}
 
 	/**
 	 * A11y: Add dialog role and aria-labelledby to the modal
 	 */
 	private changeModal(): void {
-		this.cookieModal?.setAttribute('role', 'dialog');
-		this.cookieModal?.setAttribute('aria-labelledby', this.MODAL_TITLE_ID);
+		this.cookieModal?.setAttribute( 'role', 'dialog' );
+		this.cookieModal?.setAttribute( 'aria-labelledby', this.MODAL_TITLE_ID );
 	}
 
 	/**
 	 * A11y: observe the show more/less description button and set aria-controls to the button
 	 */
 	private observeShowMoreLessDescription(): void {
-		const wrapper = document.querySelector<HTMLElement>(this.MODAL_CONTENT_WRAPPER_CLASS);
-		if (!wrapper) return;
+		const wrapper = document.querySelector< HTMLElement >( this.MODAL_CONTENT_WRAPPER_CLASS );
+		if ( ! wrapper ) return;
 
 		wrapper.id ||= this.MODAL_CONTENT_ID;
 
 		const setAriaControls = () => {
-			const button = wrapper.querySelector<HTMLButtonElement>(
+			const button = wrapper.querySelector< HTMLButtonElement >(
 				this.MODAL_CONTENT_TOGGLE_BUTTON_CLASSES
 			);
-			if (button) button.setAttribute('aria-controls', wrapper.id);
+			if ( button ) button.setAttribute( 'aria-controls', wrapper.id );
 		};
 
 		setAriaControls();
 
-		new MutationObserver(setAriaControls).observe(wrapper, {
+		new MutationObserver( setAriaControls ).observe( wrapper, {
 			childList: true,
 			subtree: true,
-		});
+		} );
 	}
 
 	/**
 	 * A11y: observe accordions for changes to update aria-expanded
 	 */
 	private observeAccordions(): void {
-		const accordions: NodeListOf<HTMLElement> = document.querySelectorAll(
+		const accordions: NodeListOf< HTMLElement > = document.querySelectorAll(
 			this.MODAL_ACCORDION_CSS
 		);
 
-		accordions?.forEach((wrapper: HTMLElement): void => {
+		accordions?.forEach( ( wrapper: HTMLElement ): void => {
 			const button: HTMLButtonElement | null = wrapper.querySelector(
 				this.MODAL_ACCORDION_BTN_CSS
 			);
 
-			button?.setAttribute('aria-expanded', 'false');
+			button?.setAttribute( 'aria-expanded', 'false' );
 
-			const observer = new MutationObserver((mutations: MutationRecord[]) => {
-				mutations.forEach((mutation: MutationRecord) => {
+			const observer = new MutationObserver( ( mutations: MutationRecord[] ) => {
+				mutations.forEach( ( mutation: MutationRecord ) => {
 					const newAriaState = wrapper?.classList
-						.contains(this.MODAL_ACCORDION_OPEN_CSS.substring(1))
+						.contains( this.MODAL_ACCORDION_OPEN_CSS.substring( 1 ) )
 						.toString();
-					if (mutation.type === 'attributes') {
-						button?.setAttribute('aria-expanded', newAriaState);
+					if ( mutation.type === 'attributes' ) {
+						button?.setAttribute( 'aria-expanded', newAriaState );
 					}
-				});
-			});
+				} );
+			} );
 
-			observer.observe(wrapper, {
+			observer.observe( wrapper, {
 				attributes: true,
-			});
-		});
+			} );
+		} );
 	}
 
 	/**
 	 * A11y: transform modal title to h2
 	 */
 	private changeModalTitleToH2(): void {
-		const title: HTMLSpanElement | null = document.querySelector(this.MODAL_TITLE_CSS);
-		if (!title) return;
-		const transformedTitle = transformTag(title, 'h2') as HTMLHeadingElement;
+		const title: HTMLSpanElement | null = document.querySelector( this.MODAL_TITLE_CSS );
+		if ( ! title ) return;
+		const transformedTitle = transformTag( title, 'h2' ) as HTMLHeadingElement;
 
-		if (transformedTitle.hasAttribute('role')) {
-			transformedTitle.removeAttribute('role');
+		if ( transformedTitle.hasAttribute( 'role' ) ) {
+			transformedTitle.removeAttribute( 'role' );
 		}
 
-		if (transformedTitle.hasAttribute('aria-level')) {
-			transformedTitle.removeAttribute('aria-level');
+		if ( transformedTitle.hasAttribute( 'aria-level' ) ) {
+			transformedTitle.removeAttribute( 'aria-level' );
 		}
 
 		transformedTitle.id = this.MODAL_TITLE_ID;
@@ -391,52 +391,52 @@ export default class A11yCookieYes {
 		const closeButton: HTMLButtonElement | null = document.querySelector(
 			this.MODAL_BTN_CLOSE_CSS
 		);
-		if (!closeButton) return;
+		if ( ! closeButton ) return;
 
-		closeButton.setAttribute('aria-label', this.MODAL_BTN_CLOSE_ARIA_LABEL);
+		closeButton.setAttribute( 'aria-label', this.MODAL_BTN_CLOSE_ARIA_LABEL );
 	}
 
 	/**
 	 * A11y: Makes the buttons in the modal h3 elements
 	 */
 	private changeModelButtonsToH3(): void {
-		const buttons = document.querySelectorAll(this.MODAL_ACCORDION_BTN_CSS);
-		buttons?.forEach((button: Element) => {
-			if (!button.parentElement) return;
+		const buttons = document.querySelectorAll( this.MODAL_ACCORDION_BTN_CSS );
+		buttons?.forEach( ( button: Element ) => {
+			if ( ! button.parentElement ) return;
 
-			const h3Element = document.createElement('h3');
-			h3Element.classList.add('cky-preference-title');
-			button.parentElement.insertBefore(h3Element, button);
-			h3Element.appendChild(button);
-		});
+			const h3Element = document.createElement( 'h3' );
+			h3Element.classList.add( 'cky-preference-title' );
+			button.parentElement.insertBefore( h3Element, button );
+			h3Element.appendChild( button );
+		} );
 	}
 
 	/**
 	 * A11y: Change the role of the checkboxes to switch
 	 */
 	private addCheckboxRoleSwitch(): void {
-		const checkboxes: NodeListOf<HTMLInputElement> = document.querySelectorAll(
+		const checkboxes: NodeListOf< HTMLInputElement > = document.querySelectorAll(
 			this.MODAL_CHECKBOXES_CSS
 		);
 
-		checkboxes?.forEach((checkbox: HTMLInputElement) => {
-			if (checkbox.hasAttribute('role')) {
-				checkbox.removeAttribute('role');
+		checkboxes?.forEach( ( checkbox: HTMLInputElement ) => {
+			if ( checkbox.hasAttribute( 'role' ) ) {
+				checkbox.removeAttribute( 'role' );
 			}
 
-			checkbox.setAttribute('role', 'switch');
-		});
+			checkbox.setAttribute( 'role', 'switch' );
+		} );
 	}
 
 	/**
 	 * A11y: Change the aria-label of the checkboxes based on state
 	 */
 	private changeCheckboxAriaLabel(): void {
-		const accordions: NodeListOf<HTMLElement> = document.querySelectorAll(
+		const accordions: NodeListOf< HTMLElement > = document.querySelectorAll(
 			this.MODAL_ACCORDION_CSS
 		);
 
-		accordions?.forEach((wrapper: HTMLElement): void => {
+		accordions?.forEach( ( wrapper: HTMLElement ): void => {
 			const button: HTMLButtonElement | null = wrapper.querySelector(
 				this.MODAL_ACCORDION_BTN_CSS
 			);
@@ -444,27 +444,27 @@ export default class A11yCookieYes {
 				this.MODAL_CHECKBOXES_CSS
 			);
 
-			if (!button || !checkbox) return;
+			if ( ! button || ! checkbox ) return;
 
-			this.syncAriaLabel(button, checkbox);
+			this.syncAriaLabel( button, checkbox );
 
-			checkbox.addEventListener('change', () => {
-				this.syncAriaLabel(button, checkbox);
-			});
-		});
+			checkbox.addEventListener( 'change', () => {
+				this.syncAriaLabel( button, checkbox );
+			} );
+		} );
 	}
 
-	private syncAriaLabel(button: HTMLButtonElement, checkbox: HTMLInputElement): void {
+	private syncAriaLabel( button: HTMLButtonElement, checkbox: HTMLInputElement ): void {
 		const baseLabel =
-			button.getAttribute('aria-label') || button.textContent?.trim() || 'Categorie';
+			button.getAttribute( 'aria-label' ) || button.textContent?.trim() || 'Categorie';
 
 		const isChecked = checkbox.checked;
 
 		const label = isChecked
-			? `${baseLabel} ingeschakeld, zet ${baseLabel.toLowerCase()} uit`
-			: `${baseLabel} uitgeschakeld, zet ${baseLabel.toLowerCase()} aan`;
+			? `${ baseLabel } ingeschakeld, zet ${ baseLabel.toLowerCase() } uit`
+			: `${ baseLabel } uitgeschakeld, zet ${ baseLabel.toLowerCase() } aan`;
 
-		checkbox.setAttribute('aria-label', label);
+		checkbox.setAttribute( 'aria-label', label );
 	}
 
 	// ====================================================================================
@@ -476,17 +476,17 @@ export default class A11yCookieYes {
 	 * like a button. Changing the <p> to a <button> will lose the event listener.
 	 */
 	private changeEmbedText(): void {
-		const acceptText: NodeListOf<Element> = document.querySelectorAll(
+		const acceptText: NodeListOf< Element > = document.querySelectorAll(
 			this.EMBED_BLOCKER_BUTTON_CSS
 		);
 
-		acceptText?.forEach((text: Element) => {
-			const button = transformTag(text, 'button') as HTMLButtonElement;
-			if (!button) return;
+		acceptText?.forEach( ( text: Element ) => {
+			const button = transformTag( text, 'button' ) as HTMLButtonElement;
+			if ( ! button ) return;
 
 			// This special classnames is detected by cookie-yes and will trigger a reopening of the modal when clicked
 			// @see https://www.cookieyes.com/documentation/change-cookie-consent-using-cookieyes/
-			button.classList.add(this.EMBED_BLOCKER_NEW_CLASS_CSS.substring(1));
-		});
+			button.classList.add( this.EMBED_BLOCKER_NEW_CLASS_CSS.substring( 1 ) );
+		} );
 	}
 }

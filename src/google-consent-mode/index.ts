@@ -18,7 +18,7 @@ import {
 export class GoogleConsentMode {
 	// Based on cookieYes mapping of categories to Google Consent Mode
 	// https://www.cookieyes.com/documentation/implementing-google-consent-mode-using-cookieyes/#:~:text=CookieYes%20script%20again.-,Google%20Consent%20Type,-CookieYes%20CMP%20maps
-	private consentMapping: { [key: string]: string } = {
+	private consentMapping: { [ key: string ]: string } = {
 		ad_storage: 'advertisement',
 		ad_user_data: 'advertisement',
 		ad_personalization: 'advertisement',
@@ -38,7 +38,7 @@ export class GoogleConsentMode {
 	private setupDefaultGtagConsent() {
 		window.dataLayer = window.dataLayer || [];
 
-		gtag('consent', 'default', {
+		gtag( 'consent', 'default', {
 			ad_storage: 'denied',
 			ad_user_data: 'denied',
 			ad_personalization: 'denied',
@@ -46,100 +46,100 @@ export class GoogleConsentMode {
 			functionality_storage: 'denied',
 			personalization_storage: 'denied',
 			security_storage: 'granted',
-		});
+		} );
 
-		gtag('set', 'ads_data_redaction', true);
-		gtag('set', 'url_passthrough', true);
+		gtag( 'set', 'ads_data_redaction', true );
+		gtag( 'set', 'url_passthrough', true );
 	}
 
-	private dataLayerWrapper(argument: any) {
-		if (!window.dataLayer) {
+	private dataLayerWrapper( argument: any ) {
+		if ( ! window.dataLayer ) {
 			window.dataLayer = window.dataLayer || [];
 		}
 
-		window.dataLayer.push(argument);
+		window.dataLayer.push( argument );
 	}
 
 	private updateConsentAndPush(
-		consentObject: { [key: string]: string },
+		consentObject: { [ key: string ]: string },
 		adsDataRedaction?: boolean
 	) {
 		// Set the new state on the window variables e.g. analytics_storage_yard
-		Object.entries(consentObject).forEach(([key, value]) => {
-			(window as any)[`${key}_yard`] = value;
-		});
+		Object.entries( consentObject ).forEach( ( [ key, value ] ) => {
+			( window as any )[ `${ key }_yard` ] = value;
+		} );
 
 		// Manage sending the ads redaction state
-		let pushObject: { [key: string]: any } = {
+		let pushObject: { [ key: string ]: any } = {
 			...consentObject,
 			event: 'gtm_consent_update_yard',
 		};
 
-		if (adsDataRedaction === false) {
-			gtag('set', 'ads_data_redaction', false);
+		if ( adsDataRedaction === false ) {
+			gtag( 'set', 'ads_data_redaction', false );
 			pushObject = { ...pushObject, ads_data_redaction: false };
 		}
 
 		// Send both gtag and dataLayer events
-		gtag('consent', 'update', consentObject);
-		this.dataLayerWrapper(pushObject);
+		gtag( 'consent', 'update', consentObject );
+		this.dataLayerWrapper( pushObject );
 	}
 
 	private initialPageLoad() {
-		const cookies = parseCookies(document.cookie);
-		const consentCookie = cookies['cookieyes-consent'];
-		if (!consentCookie) return;
+		const cookies = parseCookies( document.cookie );
+		const consentCookie = cookies[ 'cookieyes-consent' ];
+		if ( ! consentCookie ) return;
 
-		const consentDetails = parseCookieDetails(consentCookie);
-		if (!consentDetails.action) return;
+		const consentDetails = parseCookieDetails( consentCookie );
+		if ( ! consentDetails.action ) return;
 
-		const gtagConsent = this.matchCookieYesConsentToGtag(consentDetails);
+		const gtagConsent = this.matchCookieYesConsentToGtag( consentDetails );
 
 		const redactAds = consentDetails.advertisement === 'yes' ? false : true;
-		this.updateConsentAndPush(gtagConsent, redactAds);
+		this.updateConsentAndPush( gtagConsent, redactAds );
 	}
 
 	private laterCookieChange() {
-		document.addEventListener('cookiechange', (event) => {
-			const { oldValue, newValue } = (event as CustomEvent).detail;
-			const oldConsent = parseCookies(oldValue)['cookieyes-consent'];
-			const newConsent = parseCookies(newValue)['cookieyes-consent'];
+		document.addEventListener( 'cookiechange', ( event ) => {
+			const { oldValue, newValue } = ( event as CustomEvent ).detail;
+			const oldConsent = parseCookies( oldValue )[ 'cookieyes-consent' ];
+			const newConsent = parseCookies( newValue )[ 'cookieyes-consent' ];
 
-			if (!oldConsent || !newConsent) return;
+			if ( ! oldConsent || ! newConsent ) return;
 
 			const changes = compareCookieYesConsentDetails(
-				parseCookieDetails(oldConsent),
-				parseCookieDetails(newConsent)
+				parseCookieDetails( oldConsent ),
+				parseCookieDetails( newConsent )
 			);
 
-			if (!(changes.length > 0)) return;
-			if (changes[0].category.match(/^(action|consent)$/)) return;
-			this.updateSpecificGtagConsent(changes);
-		});
+			if ( ! ( changes.length > 0 ) ) return;
+			if ( changes[ 0 ].category.match( /^(action|consent)$/ ) ) return;
+			this.updateSpecificGtagConsent( changes );
+		} );
 	}
 
-	private updateSpecificGtagConsent(changes: any[]) {
-		changes.forEach((change) => {
-			const newGtag = this.matchCookieYesConsentToGtag({
-				[change.category]: change.newValue,
-			});
+	private updateSpecificGtagConsent( changes: any[] ) {
+		changes.forEach( ( change ) => {
+			const newGtag = this.matchCookieYesConsentToGtag( {
+				[ change.category ]: change.newValue,
+			} );
 			const redactAds =
 				change.category === 'advertisement' && change.newValue === 'yes' ? false : true;
-			this.updateConsentAndPush(newGtag, redactAds);
-		});
+			this.updateConsentAndPush( newGtag, redactAds );
+		} );
 	}
 
-	private matchCookieYesConsentToGtag(consentDetails: { [key: string]: string }) {
-		const gtagConsent: { [key: string]: string } = {};
-		Object.entries(consentDetails).forEach(([cookieYesKey, cookieYesKeyValue]) => {
-			const matchedGtagKeys = Object.keys(this.consentMapping).filter(
-				(gtagKey) => this.consentMapping[gtagKey] === cookieYesKey
+	private matchCookieYesConsentToGtag( consentDetails: { [ key: string ]: string } ) {
+		const gtagConsent: { [ key: string ]: string } = {};
+		Object.entries( consentDetails ).forEach( ( [ cookieYesKey, cookieYesKeyValue ] ) => {
+			const matchedGtagKeys = Object.keys( this.consentMapping ).filter(
+				( gtagKey ) => this.consentMapping[ gtagKey ] === cookieYesKey
 			);
 
-			matchedGtagKeys.forEach((gtagKey) => {
-				gtagConsent[gtagKey] = cookieYesKeyValue === 'yes' ? 'granted' : 'denied';
-			});
-		});
+			matchedGtagKeys.forEach( ( gtagKey ) => {
+				gtagConsent[ gtagKey ] = cookieYesKeyValue === 'yes' ? 'granted' : 'denied';
+			} );
+		} );
 
 		return gtagConsent;
 	}
