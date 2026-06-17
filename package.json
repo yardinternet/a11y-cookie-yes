@@ -31,14 +31,23 @@
 		"start": "vite build --watch",
 		"build": "vite build",
 		"prepack": "vite build",
+		"lint:js": "yard-toolkit lint js -m custom './src/**/*.ts'",
+		"lint:css": "yard-toolkit lint scss -m custom './src/**/*.scss'",
+		"format:js": "yard-toolkit format js -m custom './src/**/*.ts'",
+		"format:css": "yard-toolkit format scss -m custom './src/**/*.scss'",
 		"test": "echo \"No tests yet\" && exit 0"
 	},
 	"engines": {
 		"node": ">=18"
 	},
 	"devDependencies": {
+		"@yardinternet/eslint-config": "^1.2.7",
+		"@yardinternet/prettier-config": "^2.0.6",
+		"@yardinternet/stylelint-config": "^1.1.5",
+		"@yardinternet/toolkit": "^2.1.4",
 		"@yardinternet/ts-config": "^1.1.1",
 		"@yardinternet/vite-config": "^1.3.0",
+		"postcss-scss": "^4.0.9",
 		"sass": "^1.67.0",
 		"typescript": "^5.0.4",
 		"vite": "^7.3.5"

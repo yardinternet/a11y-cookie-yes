@@ -3,7 +3,7 @@
  * @module a11y-cookie-yes
  * @description trapping focus, transforming tags, changing aria-labels and more.
  *
- * @requires focus-trap
+ * @requires module:focus-trap
  * @requires a11y-cookie-yes/src/helpers/a11y-helpers
  * @author WybeBosch
  */
@@ -103,7 +103,10 @@ export default class A11yCookieYes {
 			this.focusTrapBannerOptions
 		);
 
-		this.focusTrapModal = focusTrap.createFocusTrap(this.cookieModal, this.focusTrapModalOptions);
+		this.focusTrapModal = focusTrap.createFocusTrap(
+			this.cookieModal,
+			this.focusTrapModalOptions
+		);
 
 		// Revisit button
 		this.moveRevisitButtonToFooter();
@@ -203,9 +206,11 @@ export default class A11yCookieYes {
 				const bannerIsHidden = (mutation.target as HTMLElement).classList.contains(
 					this.COOKIE_YES_HIDDEN_CSS.substring(1)
 				);
-				mutation.attributeName === 'class' && bannerIsHidden
-					? this.focusTrapBanner?.deactivate()
-					: this.focusTrapBanner?.activate();
+				if (mutation.attributeName === 'class' && bannerIsHidden) {
+					this.focusTrapBanner?.deactivate();
+				} else {
+					this.focusTrapBanner?.activate();
+				}
 			});
 		});
 
@@ -272,7 +277,7 @@ export default class A11yCookieYes {
 				if (mutation.attributeName === 'class') {
 					// If the modal opens
 					if (
-						mutation.attributeName == 'class' &&
+						mutation.attributeName === 'class' &&
 						targetElement.classList.contains(this.MODAL_OPEN_CSS.substring(1))
 					) {
 						setTimeout(() => {
@@ -282,7 +287,7 @@ export default class A11yCookieYes {
 
 					// If the modal closes
 					if (
-						mutation.attributeName == 'class' &&
+						mutation.attributeName === 'class' &&
 						!targetElement.classList.contains(this.MODAL_OPEN_CSS.substring(1))
 					) {
 						this.focusTrapModal?.deactivate();
@@ -332,10 +337,14 @@ export default class A11yCookieYes {
 	 * A11y: observe accordions for changes to update aria-expanded
 	 */
 	private observeAccordions(): void {
-		const accordions: NodeListOf<HTMLElement> = document.querySelectorAll(this.MODAL_ACCORDION_CSS);
+		const accordions: NodeListOf<HTMLElement> = document.querySelectorAll(
+			this.MODAL_ACCORDION_CSS
+		);
 
 		accordions?.forEach((wrapper: HTMLElement): void => {
-			const button: HTMLButtonElement | null = wrapper.querySelector(this.MODAL_ACCORDION_BTN_CSS);
+			const button: HTMLButtonElement | null = wrapper.querySelector(
+				this.MODAL_ACCORDION_BTN_CSS
+			);
 
 			button?.setAttribute('aria-expanded', 'false');
 
@@ -379,7 +388,9 @@ export default class A11yCookieYes {
 	 * A11y: Change aria-label close button in modal
 	 */
 	private changeModalCloseBtnAriaLabel(): void {
-		const closeButton: HTMLButtonElement | null = document.querySelector(this.MODAL_BTN_CLOSE_CSS);
+		const closeButton: HTMLButtonElement | null = document.querySelector(
+			this.MODAL_BTN_CLOSE_CSS
+		);
 		if (!closeButton) return;
 
 		closeButton.setAttribute('aria-label', this.MODAL_BTN_CLOSE_ARIA_LABEL);
@@ -421,11 +432,17 @@ export default class A11yCookieYes {
 	 * A11y: Change the aria-label of the checkboxes based on state
 	 */
 	private changeCheckboxAriaLabel(): void {
-		const accordions: NodeListOf<HTMLElement> = document.querySelectorAll(this.MODAL_ACCORDION_CSS);
+		const accordions: NodeListOf<HTMLElement> = document.querySelectorAll(
+			this.MODAL_ACCORDION_CSS
+		);
 
 		accordions?.forEach((wrapper: HTMLElement): void => {
-			const button: HTMLButtonElement | null = wrapper.querySelector(this.MODAL_ACCORDION_BTN_CSS);
-			const checkbox: HTMLInputElement | null = wrapper.querySelector(this.MODAL_CHECKBOXES_CSS);
+			const button: HTMLButtonElement | null = wrapper.querySelector(
+				this.MODAL_ACCORDION_BTN_CSS
+			);
+			const checkbox: HTMLInputElement | null = wrapper.querySelector(
+				this.MODAL_CHECKBOXES_CSS
+			);
 
 			if (!button || !checkbox) return;
 

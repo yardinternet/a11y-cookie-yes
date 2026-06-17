@@ -18,12 +18,12 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 	--a11y-cookie-yes-border-radius: 5px;
 	--a11y-cookie-yes-btn-font-size: 1rem;
 	--a11y-cookie-yes-btn-font-size-banner: 0.95rem;
-	--a11y-cookie-yes-btn-primary-bg: var(--a11y-cookie-yes-primary-color);
+	--a11y-cookie-yes-btn-primary-bg: var( --a11y-cookie-yes-primary-color );
 	--a11y-cookie-yes-btn-primary-txt-color: #fff;
-	--a11y-cookie-yes-btn-primary-border-color: var(--a11y-cookie-yes-primary-color);
+	--a11y-cookie-yes-btn-primary-border-color: var( --a11y-cookie-yes-primary-color );
 	--a11y-cookie-yes-btn-secondary-bg: transparent;
-	--a11y-cookie-yes-btn-secondary-txt-color: var(--a11y-cookie-yes-primary-color);
-	--a11y-cookie-yes-btn-secondary-border-color: var(--a11y-cookie-yes-primary-color);
+	--a11y-cookie-yes-btn-secondary-txt-color: var( --a11y-cookie-yes-primary-color );
+	--a11y-cookie-yes-btn-secondary-border-color: var( --a11y-cookie-yes-primary-color );
 	--a11y-cookie-yes-blocked-embed-bg: #f2f2f2;
 	--a11y-cookie-yes-vimeo-icon-font-family: 'Font Awesome 6 Brands';
 	--a11y-cookie-yes-vimeo-icon-color: #01adef;
@@ -32,23 +32,23 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 
 	// Enforce sitewide button styling
 	button.#{$ckClass}-btn {
-		border-radius: var(--a11y-cookie-yes-border-radius);
+		border-radius: var( --a11y-cookie-yes-border-radius );
 
 		// If default cookieyes button color is used, we overwrite with website primary color
 		&[style*='-color:#{$ckDefaultColorPartialTextString}'] {
 			[style*='-color:#{$ckDefaultColorPartialTextString}'] &.#{$ckClass}-btn-customize,
 			&.#{$ckClass}-btn-preferences,
 			&.#{$ckClass}-btn-customize {
-				border-color: var(--a11y-cookie-yes-btn-secondary-border-color) !important;
-				background-color: var(--a11y-cookie-yes-btn-secondary-bg) !important;
-				color: var(--a11y-cookie-yes-btn-secondary-txt-color) !important;
+				border-color: var( --a11y-cookie-yes-btn-secondary-border-color ) !important;
+				background-color: var( --a11y-cookie-yes-btn-secondary-bg ) !important;
+				color: var( --a11y-cookie-yes-btn-secondary-txt-color ) !important;
 			}
 
 			&.#{$ckClass}-btn-reject,
 			&.#{$ckClass}-btn-accept {
-				border-color: var(--a11y-cookie-yes-btn-primary-border-color) !important;
-				background-color: var(--a11y-cookie-yes-btn-primary-bg) !important;
-				color: var(--a11y-cookie-yes-btn-primary-txt-color) !important;
+				border-color: var( --a11y-cookie-yes-btn-primary-border-color ) !important;
+				background-color: var( --a11y-cookie-yes-btn-primary-bg ) !important;
+				color: var( --a11y-cookie-yes-btn-primary-txt-color ) !important;
 			}
 		}
 	}
@@ -60,7 +60,7 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 .#{$ckClass}-preference-content-wrapper *,
 .#{$ckClass}-accordion-header-des *,
 .#{$ckClass}-gpc-wrapper .#{$ckClass}-gpc-desc * {
-	font-size: var(--a11y-cookie-yes-btn-font-size) !important;
+	font-size: var( --a11y-cookie-yes-btn-font-size ) !important;
 }
 
 /**
@@ -69,13 +69,13 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 .#{$ckClass}-consent-container {
 	// Smaller buttons to stay on one line
 	.#{$ckClass}-btn {
-		font-size: var(--a11y-cookie-yes-btn-font-size-banner) !important;
 		overflow: auto !important;
+		font-size: var( --a11y-cookie-yes-btn-font-size-banner ) !important;
 	}
 
 	.#{$ckClass}-consent-bar {
-		max-height: 100vh;
 		overflow: auto;
+		max-height: 100vh;
 	}
 }
 
@@ -84,20 +84,20 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
  */
 .#{$ckClass}-btn-revisit-wrapper {
 	&[style*='color:#{$ckRevisitConsentDefaultColorPartialTextString}'] {
-		background-color: var(--a11y-cookie-yes-btn-primary-bg) !important;
+		background-color: var( --a11y-cookie-yes-btn-primary-bg ) !important;
 	}
 }
 
 .#{$ckClass}-preference-body-wrapper {
-	min-height: 100px;
 	position: relative;
+	min-height: 100px;
 }
 
 .#{$ckClass}-preference-center {
 	overflow: auto !important;
 
 	.#{$ckClass}-preference-body-wrapper {
-		@media (max-height: 480px) {
+		@media ( max-height: 480px ) {
 			overflow: auto !important;
 		}
 	}
@@ -117,7 +117,7 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 	}
 
 	// Change checkbox toggle to adhere 3:0 contrast ratio
-	.cky-switch input[type='checkbox']:not(:checked) {
+	.cky-switch input[type='checkbox']:not( :checked ) {
 		background-color: #878787 !important;
 	}
 
@@ -138,7 +138,7 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 	}
 
 	// Hide cookie category if it's empty
-	.#{$ckClass}-accordion:has(.#{$ckClass}-empty-cookies-text) {
+	.#{$ckClass}-accordion:has( .#{$ckClass}-empty-cookies-text ) {
 		display: none;
 	}
 
@@ -167,7 +167,7 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 		height: 100% !important;
 		align-items: center;
 		border: 0;
-		background-color: var(--a11y-cookie-yes-blocked-embed-background);
+		background-color: var( --a11y-cookie-yes-blocked-embed-background );
 	}
 
 	// Vimeo thumbnail icon
@@ -178,10 +178,10 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 			&::after {
 				position: absolute;
 				bottom: 0;
-				color: var(--a11y-cookie-yes-vimeo-icon-color);
-				content: var(--a11y-cookie-yes-vimeo-icon-unicode);
-				font-family: var(--a11y-cookie-yes-vimeo-icon-font-family);
-				font-size: var(--a11y-cookie-yes-vimeo-icon-size);
+				color: var( --a11y-cookie-yes-vimeo-icon-color );
+				content: var( --a11y-cookie-yes-vimeo-icon-unicode );
+				font-family: var( --a11y-cookie-yes-vimeo-icon-font-family );
+				font-size: var( --a11y-cookie-yes-vimeo-icon-size );
 			}
 		}
 	}
@@ -190,11 +190,11 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 	[#{$ckData}='placeholder-title'] {
 		position: relative;
 		z-index: 1;
-		border-color: var(--a11y-cookie-yes-btn-primary-bg) !important;
+		border-color: var( --a11y-cookie-yes-btn-primary-bg ) !important;
+		border-radius: var( --a11y-cookie-yes-border-radius );
 		margin-bottom: 0;
 		background-color: transparent !important;
-		border-radius: var(--a11y-cookie-yes-border-radius);
-		color: var(--a11y-cookie-yes-btn-primary-txt-color) !important;
+		color: var( --a11y-cookie-yes-btn-primary-txt-color ) !important;
 		transition: 0.2s transform;
 
 		&::before {
@@ -204,16 +204,16 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 			right: 0;
 			bottom: 0;
 			left: 0;
-			background-color: var(--a11y-cookie-yes-btn-primary-bg);
+			background-color: var( --a11y-cookie-yes-btn-primary-bg );
 			content: '';
-			filter: brightness(100%);
+			filter: brightness( 100% );
 		}
 
 		&:hover,
 		&:focus,
 		&:active {
 			&::before {
-				filter: brightness(85%);
+				filter: brightness( 85% );
 			}
 		}
 	}
