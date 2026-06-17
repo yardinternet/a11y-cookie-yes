@@ -40,8 +40,8 @@ const compareCookieYesConsentDetails = (
 		if (oldValue !== newValue) {
 			changes.push({
 				category: key,
-				oldValue: oldValue,
-				newValue: newValue,
+				oldValue,
+				newValue,
 			});
 		}
 	});
@@ -52,7 +52,7 @@ const broadcastCookieChangeEvents = () => {
 	// https://stackoverflow.com/a/63952971/13165245
 	let lastCookie = document.cookie;
 	const expando = '_cookie';
-	let nativeCookieDesc = Object.getOwnPropertyDescriptor(Document.prototype, 'cookie');
+	const nativeCookieDesc = Object.getOwnPropertyDescriptor(Document.prototype, 'cookie');
 	Object.defineProperty(Document.prototype, expando, nativeCookieDesc || {});
 	Object.defineProperty(Document.prototype, 'cookie', {
 		enumerable: true,
@@ -62,10 +62,10 @@ const broadcastCookieChangeEvents = () => {
 		},
 		set(value) {
 			this[expando] = value;
-			let cookie = this[expando];
+			const cookie = this[expando];
 			if (cookie !== lastCookie) {
 				try {
-					let detail = { oldValue: lastCookie, newValue: cookie };
+					const detail = { oldValue: lastCookie, newValue: cookie };
 					this.dispatchEvent(new CustomEvent('cookiechange', { detail }));
 					channel.postMessage(detail);
 				} finally {

@@ -28,9 +28,9 @@ export const transformTag = (element: Element, transformTo: string) => {
 /**
  * Wait for an element to appear in the DOM and resolve with the element.
  *
- * @param {string} selector The CSS selector for the element to wait for
- * @param {number} maxTimeToSearch  The maximum time to wait for the element, in milliseconds
- * @return {Promise<NodeListOf<Element> | Element | null>} A promise that resolves with the element when it appears in the DOM
+ * @param {string} selector        The CSS selector for the element to wait for
+ * @param {number} maxTimeToSearch The maximum time to wait for the element, in milliseconds
+ * @return {Promise<NodeList | Element | null>} A promise that resolves with the element when it appears in the DOM
  * @throws {string} If the element does not appear in the DOM before the timeout is reached
  */
 export const waitForElement = (

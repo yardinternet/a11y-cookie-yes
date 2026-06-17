@@ -62,7 +62,7 @@ export class GoogleConsentMode {
 
 	private updateConsentAndPush(
 		consentObject: { [key: string]: string },
-		ads_data_redaction?: boolean
+		adsDataRedaction?: boolean
 	) {
 		// Set the new state on the window variables e.g. analytics_storage_yard
 		Object.entries(consentObject).forEach(([key, value]) => {
@@ -75,7 +75,7 @@ export class GoogleConsentMode {
 			event: 'gtm_consent_update_yard',
 		};
 
-		if (ads_data_redaction === false) {
+		if (adsDataRedaction === false) {
 			gtag('set', 'ads_data_redaction', false);
 			pushObject = { ...pushObject, ads_data_redaction: false };
 		}
@@ -113,16 +113,18 @@ export class GoogleConsentMode {
 			);
 
 			if (!(changes.length > 0)) return;
-			if (changes[0]['category'].match(/^(action|consent)$/)) return;
+			if (changes[0].category.match(/^(action|consent)$/)) return;
 			this.updateSpecificGtagConsent(changes);
 		});
 	}
 
 	private updateSpecificGtagConsent(changes: any[]) {
 		changes.forEach((change) => {
-			const newGtag = this.matchCookieYesConsentToGtag({ [change.category]: change.newValue });
+			const newGtag = this.matchCookieYesConsentToGtag({
+				[change.category]: change.newValue,
+			});
 			const redactAds =
-				change.category == 'advertisement' && change.newValue == 'yes' ? false : true;
+				change.category === 'advertisement' && change.newValue === 'yes' ? false : true;
 			this.updateConsentAndPush(newGtag, redactAds);
 		});
 	}
