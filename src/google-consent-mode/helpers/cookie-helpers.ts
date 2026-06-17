@@ -1,35 +1,53 @@
 declare global {
 	interface Window {
-		gtag: any;
-		dataLayer: any;
+		gtag: ( ...args: unknown[] ) => void;
+		dataLayer: unknown[];
 	}
 }
 
-const gtag = ( ...args: any[] ): void => {
+type ConsentDetails = Record< string, string >;
+
+interface ConsentChange {
+	category: string;
+	oldValue: string | undefined;
+	newValue: string | undefined;
+}
+
+const gtag = ( ...args: unknown[] ): void => {
 	window.dataLayer.push( args );
 };
 
-const parseCookies = ( cookieString: string ) => {
-	return cookieString.split( '; ' ).reduce( ( acc: any, cookie: any ) => {
-		const [ key, value ] = cookie.split( '=' );
-		acc[ key ] = value;
-		return acc;
-	}, {} );
+const parseCookies = ( cookieString: string ): ConsentDetails => {
+	return cookieString
+		.split( '; ' )
+		.reduce< ConsentDetails >( ( acc, cookie ) => {
+			const [ key, value ] = cookie.split( '=' );
+			if ( key ) {
+				acc[ key ] = value ?? '';
+			}
+			return acc;
+		}, {} );
 };
 
-const parseCookieDetails = ( consentString: string ) => {
-	return consentString.split( ',' ).reduce( ( acc: any, item: any ) => {
-		const [ key, value ] = item.split( ':' ).map( ( part: any ) => part.trim() );
-		acc[ key ] = value;
-		return acc;
-	}, {} );
+const parseCookieDetails = ( consentString: string ): ConsentDetails => {
+	return consentString
+		.split( ',' )
+		.reduce< ConsentDetails >( ( acc, item ) => {
+			const [ key, value ] = item
+				.split( ':' )
+				.map( ( part ) => part.trim() );
+			if ( key ) {
+				acc[ key ] = value ?? '';
+			}
+			return acc;
+		}, {} );
 };
 
 const compareCookieYesConsentDetails = (
-	oldCookieYesConsentList: any,
-	newCookieYesConsentList: any
-) => {
-	const changes: any[] = [];
+	oldCookieYesConsentList: ConsentDetails,
+	newCookieYesConsentList: ConsentDetails
+): ConsentChange[] => {
+	const changes: ConsentChange[] = [];
 	const allKeys = new Set( [
 		...Object.keys( oldCookieYesConsentList ),
 		...Object.keys( newCookieYesConsentList ),
@@ -52,8 +70,15 @@ const broadcastCookieChangeEvents = () => {
 	// https://stackoverflow.com/a/63952971/13165245
 	let lastCookie = document.cookie;
 	const expando = '_cookie';
-	const nativeCookieDesc = Object.getOwnPropertyDescriptor( Document.prototype, 'cookie' );
-	Object.defineProperty( Document.prototype, expando, nativeCookieDesc || {} );
+	const nativeCookieDesc = Object.getOwnPropertyDescriptor(
+		Document.prototype,
+		'cookie'
+	);
+	Object.defineProperty(
+		Document.prototype,
+		expando,
+		nativeCookieDesc || {}
+	);
 	Object.defineProperty( Document.prototype, 'cookie', {
 		enumerable: true,
 		configurable: true,
@@ -66,7 +91,9 @@ const broadcastCookieChangeEvents = () => {
 			if ( cookie !== lastCookie ) {
 				try {
 					const detail = { oldValue: lastCookie, newValue: cookie };
-					this.dispatchEvent( new CustomEvent( 'cookiechange', { detail } ) );
+					this.dispatchEvent(
+						new CustomEvent( 'cookiechange', { detail } )
+					);
 					channel.postMessage( detail );
 				} finally {
 					lastCookie = cookie;
@@ -79,7 +106,9 @@ const broadcastCookieChangeEvents = () => {
 	const channel = new BroadcastChannel( 'cookie-channel' );
 	channel.onmessage = ( e ) => {
 		lastCookie = e.data.newValue;
-		document.dispatchEvent( new CustomEvent( 'cookiechange', { detail: e.data } ) );
+		document.dispatchEvent(
+			new CustomEvent( 'cookiechange', { detail: e.data } )
+		);
 	};
 };
 
@@ -90,3 +119,5 @@ export {
 	compareCookieYesConsentDetails,
 	broadcastCookieChangeEvents,
 };
+
+export type { ConsentDetails, ConsentChange };

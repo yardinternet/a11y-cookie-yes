@@ -76,13 +76,6 @@ packages:
       '@babel/core': ^7.11.0
       eslint: ^7.5.0 || ^8.0.0 || ^9.0.0
 
-  '@babel/eslint-parser@7.29.7':
-    resolution: {integrity: sha512-zxt+UJTOMKvUt3yOg+D58MLuz334pHp93qifMFcjIIO+9hN6t+ufw2gi7vDPMpxvfnHRR+3VVXvIjineCcgyXw==}
-    engines: {node: ^10.13.0 || ^12.13.0 || >=14.0.0}
-    peerDependencies:
-      '@babel/core': ^7.11.0
-      eslint: ^7.5.0 || ^8.0.0 || ^9.0.0
-
   '@babel/generator@7.29.7':
     resolution: {integrity: sha512-DkXD5OJQaAQIdZ1bt3UZdEnHAn9Imd3IVBdX03UFe+ony9Ojw5pzr9YVKGDY1jt+Gcn/FnGkNf8r+Vj5NOJWtQ==}
     engines: {node: '>=6.9.0'}
@@ -4787,14 +4780,6 @@ snapshots:
       eslint-visitor-keys: 2.1.0
       semver: 6.3.1
 
-  '@babel/eslint-parser@7.29.7(@babel/core@7.29.7)(eslint@9.39.4(jiti@1.21.7))':
-    dependencies:
-      '@babel/core': 7.29.7
-      '@nicolo-ribaudo/eslint-scope-5-internals': 5.1.1-v1
-      eslint: 9.39.4(jiti@1.21.7)
-      eslint-visitor-keys: 2.1.0
-      semver: 6.3.1
-
   '@babel/generator@7.29.7':
     dependencies:
       '@babel/parser': 7.29.7
@@ -6898,7 +6883,7 @@ snapshots:
 
   '@yardinternet/eslint-config@1.2.11(@babel/core@7.29.7)(@typescript-eslint/parser@6.21.0(eslint@9.39.4(jiti@1.21.7))(typescript@5.9.3))(eslint@9.39.4(jiti@1.21.7))(prettier@3.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint@17.13.0(typescript@5.9.3))(typescript@5.9.3)':
     dependencies:
-      '@babel/eslint-parser': 7.29.7(@babel/core@7.29.7)(eslint@9.39.4(jiti@1.21.7))
+      '@babel/eslint-parser': 7.25.7(@babel/core@7.29.7)(eslint@9.39.4(jiti@1.21.7))
       '@babel/preset-react': 7.29.7(@babel/core@7.29.7)
       '@eslint/compat': 2.1.0(eslint@9.39.4(jiti@1.21.7))
       '@eslint/eslintrc': 3.3.5
@@ -6928,7 +6913,7 @@ snapshots:
 
   '@yardinternet/eslint-config@1.2.11(@babel/core@7.29.7)(@typescript-eslint/parser@6.21.0(eslint@9.39.4(jiti@1.21.7))(typescript@5.9.3))(eslint@9.39.4(jiti@1.21.7))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint@17.13.0(typescript@5.9.3))(typescript@5.9.3)(wp-prettier@3.0.3)':
     dependencies:
-      '@babel/eslint-parser': 7.29.7(@babel/core@7.29.7)(eslint@9.39.4(jiti@1.21.7))
+      '@babel/eslint-parser': 7.25.7(@babel/core@7.29.7)(eslint@9.39.4(jiti@1.21.7))
       '@babel/preset-react': 7.29.7(@babel/core@7.29.7)
       '@eslint/compat': 2.1.0(eslint@9.39.4(jiti@1.21.7))
       '@eslint/eslintrc': 3.3.5

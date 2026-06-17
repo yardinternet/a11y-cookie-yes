@@ -13,6 +13,7 @@ import {
 	parseCookieDetails,
 	compareCookieYesConsentDetails,
 	broadcastCookieChangeEvents,
+	type ConsentChange,
 } from './helpers/cookie-helpers';
 
 export class GoogleConsentMode {
@@ -52,7 +53,7 @@ export class GoogleConsentMode {
 		gtag( 'set', 'url_passthrough', true );
 	}
 
-	private dataLayerWrapper( argument: any ) {
+	private dataLayerWrapper( argument: unknown ) {
 		if ( ! window.dataLayer ) {
 			window.dataLayer = window.dataLayer || [];
 		}
@@ -66,11 +67,13 @@ export class GoogleConsentMode {
 	) {
 		// Set the new state on the window variables e.g. analytics_storage_yard
 		Object.entries( consentObject ).forEach( ( [ key, value ] ) => {
-			( window as any )[ `${ key }_yard` ] = value;
+			( window as unknown as Record< string, string > )[
+				`${ key }_yard`
+			] = value;
 		} );
 
 		// Manage sending the ads redaction state
-		let pushObject: { [ key: string ]: any } = {
+		let pushObject: Record< string, string | boolean > = {
 			...consentObject,
 			event: 'gtm_consent_update_yard',
 		};
@@ -113,33 +116,43 @@ export class GoogleConsentMode {
 			);
 
 			if ( ! ( changes.length > 0 ) ) return;
-			if ( changes[ 0 ].category.match( /^(action|consent)$/ ) ) return;
+			if ( changes[ 0 ]?.category.match( /^(action|consent)$/ ) ) return;
 			this.updateSpecificGtagConsent( changes );
 		} );
 	}
 
-	private updateSpecificGtagConsent( changes: any[] ) {
+	private updateSpecificGtagConsent( changes: ConsentChange[] ) {
 		changes.forEach( ( change ) => {
 			const newGtag = this.matchCookieYesConsentToGtag( {
-				[ change.category ]: change.newValue,
+				[ change.category ]: change.newValue ?? '',
 			} );
 			const redactAds =
-				change.category === 'advertisement' && change.newValue === 'yes' ? false : true;
+				change.category === 'advertisement' && change.newValue === 'yes'
+					? false
+					: true;
 			this.updateConsentAndPush( newGtag, redactAds );
 		} );
 	}
 
-	private matchCookieYesConsentToGtag( consentDetails: { [ key: string ]: string } ) {
+	private matchCookieYesConsentToGtag( consentDetails: {
+		[ key: string ]: string;
+	} ) {
 		const gtagConsent: { [ key: string ]: string } = {};
-		Object.entries( consentDetails ).forEach( ( [ cookieYesKey, cookieYesKeyValue ] ) => {
-			const matchedGtagKeys = Object.keys( this.consentMapping ).filter(
-				( gtagKey ) => this.consentMapping[ gtagKey ] === cookieYesKey
-			);
+		Object.entries( consentDetails ).forEach(
+			( [ cookieYesKey, cookieYesKeyValue ] ) => {
+				const matchedGtagKeys = Object.keys(
+					this.consentMapping
+				).filter(
+					( gtagKey ) =>
+						this.consentMapping[ gtagKey ] === cookieYesKey
+				);
 
-			matchedGtagKeys.forEach( ( gtagKey ) => {
-				gtagConsent[ gtagKey ] = cookieYesKeyValue === 'yes' ? 'granted' : 'denied';
-			} );
-		} );
+				matchedGtagKeys.forEach( ( gtagKey ) => {
+					gtagConsent[ gtagKey ] =
+						cookieYesKeyValue === 'yes' ? 'granted' : 'denied';
+				} );
+			}
+		);
 
 		return gtagConsent;
 	}
