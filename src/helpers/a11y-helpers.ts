@@ -5,22 +5,22 @@
  * @param {string}  transformTo Tag to transform to (e.g. 'h2')
  * @return {Element|null} Transformed element
  */
-export const transformTag = (element: Element, transformTo: string) => {
-	if (!element) return null;
+export const transformTag = ( element: Element, transformTo: string ) => {
+	if ( ! element ) return null;
 
-	const transformedElement: Element = document.createElement(transformTo);
+	const transformedElement: Element = document.createElement( transformTo );
 
 	transformedElement.innerHTML = element.innerHTML;
 
-	for (let i = 0; i < element.attributes.length; i++) {
-		const attribute = element.attributes[i];
-		if (!attribute) continue;
-		transformedElement.setAttribute(attribute.name, attribute.value);
+	for ( let i = 0; i < element.attributes.length; i++ ) {
+		const attribute = element.attributes[ i ];
+		if ( ! attribute ) continue;
+		transformedElement.setAttribute( attribute.name, attribute.value );
 	}
 
-	if (!element.parentNode) return transformedElement;
+	if ( ! element.parentNode ) return transformedElement;
 
-	element.parentNode.replaceChild(transformedElement, element);
+	element.parentNode.replaceChild( transformedElement, element );
 
 	return transformedElement;
 };
@@ -36,24 +36,24 @@ export const transformTag = (element: Element, transformTo: string) => {
 export const waitForElement = (
 	selector: string,
 	maxTimeToSearch: number = 5000
-): Promise<NodeListOf<Element> | Element | null> => {
-	return new Promise((resolve) => {
+): Promise< NodeListOf< Element > | Element | null > => {
+	return new Promise( ( resolve ) => {
 		const startTime = Date.now();
-		const interval = setInterval(() => {
-			const elements = document.querySelectorAll(selector),
+		const interval = setInterval( () => {
+			const elements = document.querySelectorAll( selector ),
 				hasElements = elements.length > 0,
 				isSingleElement = elements.length === 1;
 
-			if (hasElements) {
-				clearInterval(interval);
-				resolve(isSingleElement ? (elements[0] ?? null) : elements);
-			} else if (Date.now() - startTime >= maxTimeToSearch) {
-				clearInterval(interval);
+			if ( hasElements ) {
+				clearInterval( interval );
+				resolve( isSingleElement ? elements[ 0 ] ?? null : elements );
+			} else if ( Date.now() - startTime >= maxTimeToSearch ) {
+				clearInterval( interval );
 				// Should be reject(); but that wont silently fail which is what we want.
-				resolve(null);
+				resolve( null );
 			}
-		}, 100);
-	});
+		}, 100 );
+	} );
 };
 
 /**
@@ -63,11 +63,11 @@ export const waitForElement = (
  * https://www.npmjs.com/package/focus-trap#:~:text=managing/trapping%20focus.-,checkCanFocusTrap,	%7B(containers%3A%20Array%3CHTMLElement
  * @param {Element[]} elements The elements to check for visibility
  */
-export const checkCanFocusTrap = (elements: Element[]) => {
-	const results = elements.map((element): Promise<void> => {
-		return new Promise((resolve) => {
-			const interval = setInterval(() => {
-				const style = window.getComputedStyle(element);
+export const checkCanFocusTrap = ( elements: Element[] ) => {
+	const results = elements.map( ( element ): Promise< void > => {
+		return new Promise( ( resolve ) => {
+			const interval = setInterval( () => {
+				const style = window.getComputedStyle( element );
 				if (
 					style.visibility !== 'hidden' &&
 					style.display !== 'none' &&
@@ -75,10 +75,10 @@ export const checkCanFocusTrap = (elements: Element[]) => {
 					style.width !== '0px'
 				) {
 					resolve();
-					clearInterval(interval);
+					clearInterval( interval );
 				}
-			}, 5);
-		});
-	});
-	return Promise.all(results);
+			}, 5 );
+		} );
+	} );
+	return Promise.all( results );
 };
