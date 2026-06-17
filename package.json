@@ -41,12 +41,12 @@
 		"node": ">=18"
 	},
 	"devDependencies": {
-		"@yardinternet/eslint-config": "^1.2.7",
-		"@yardinternet/prettier-config": "^2.0.6",
-		"@yardinternet/stylelint-config": "^1.1.5",
-		"@yardinternet/toolkit": "^2.1.4",
-		"@yardinternet/ts-config": "^1.1.1",
-		"@yardinternet/vite-config": "^1.3.0",
+		"@yardinternet/eslint-config": "^1.2.10",
+		"@yardinternet/prettier-config": "^2.0.10",
+		"@yardinternet/stylelint-config": "^1.1.8",
+		"@yardinternet/toolkit": "^2.1.9",
+		"@yardinternet/ts-config": "^1.1.2",
+		"@yardinternet/vite-config": "^1.3.3",
 		"postcss-scss": "^4.0.9",
 		"sass": "^1.67.0",
 		"typescript": "^5.0.4",
