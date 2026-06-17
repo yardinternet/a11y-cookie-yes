@@ -29,7 +29,6 @@ updates:
     commit-message:
       prefix: "(chore)"
     versioning-strategy: lockfile-only
-    # Mirror pnpm-workspace.yaml: minimumReleaseAge 10080m (7d) + exclude @yardinternet/*
     cooldown:
       default-days: 7
       exclude:
