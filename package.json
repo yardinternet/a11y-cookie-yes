@@ -36,7 +36,10 @@
 		"lint:css": "yard-toolkit lint scss -m custom './src/**/*.scss'",
 		"format:js": "yard-toolkit format js -m custom './src/**/*.ts'",
 		"format:css": "yard-toolkit format scss -m custom './src/**/*.scss'",
-		"test": "echo \"No tests yet\" && exit 0"
+		"format:check:js": "prettier --check './src/**/*.ts'",
+		"verify": "pnpm lint:js && pnpm lint:css && pnpm format:check:js && pnpm test",
+		"test": "echo \"No tests yet\" && exit 0",
+		"prepare": "husky"
 	},
 	"engines": {
 		"node": ">=18"
@@ -48,6 +51,7 @@
 		"@yardinternet/toolkit": "^2.1.10",
 		"@yardinternet/ts-config": "^1.1.2",
 		"@yardinternet/vite-config": "^1.3.4",
+		"husky": "^9.1.7",
 		"postcss-scss": "^4.0.9",
 		"sass": "^1.100.0",
 		"typescript": "^5.9.3",
