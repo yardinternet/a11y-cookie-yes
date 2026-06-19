@@ -1,6 +1,7 @@
 {
 	"name": "@yardinternet/a11y-cookie-yes",
 	"version": "1.2.12",
+	"type": "module",
 	"author": "YvetteNikolov",
 	"contributors": [
 		"WybeBosch",
@@ -17,6 +18,7 @@
 	"types": "dist/index.d.ts",
 	"exports": {
 		".": {
+			"types": "./dist/index.d.ts",
 			"import": "./dist/a11y-cookie-yes.js"
 		}
 	},
