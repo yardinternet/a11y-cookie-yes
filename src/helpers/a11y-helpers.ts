@@ -30,8 +30,7 @@ export const transformTag = ( element: Element, transformTo: string ) => {
  *
  * @param {string} selector        The CSS selector for the element to wait for
  * @param {number} maxTimeToSearch The maximum time to wait for the element, in milliseconds
- * @return {Promise<NodeList | Element | null>} A promise that resolves with the element when it appears in the DOM
- * @throws {string} If the element does not appear in the DOM before the timeout is reached
+ * @return {Promise<NodeList | Element | null>} A promise that resolves with the matched element(s), or null on timeout
  */
 export const waitForElement = (
 	selector: string,
