@@ -20,7 +20,8 @@
 		".": {
 			"types": "./dist/index.d.ts",
 			"import": "./dist/a11y-cookie-yes.js"
-		}
+		},
+		"./dist/*": "./dist/*"
 	},
 	"publishConfig": {
 		"registry": "https://npm.pkg.github.com/@yardinternet"
