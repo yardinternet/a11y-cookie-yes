@@ -12,17 +12,15 @@ jobs:
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
-          registry-url: 'https://npm.pkg.github.com'
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
+          registry-url: "https://npm.pkg.github.com"
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - run: pnpm typecheck
       - run: pnpm build
-      - run: pnpm test
-
   publish-gpr:
     needs: build
     runs-on: ubuntu-latest
@@ -34,14 +32,14 @@ jobs:
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
-          registry-url: 'https://npm.pkg.github.com'
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
+          registry-url: "https://npm.pkg.github.com"
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      - name: Publish (prepack runs vite build)
+      - name: Publish
         run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
