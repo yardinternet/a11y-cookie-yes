@@ -107,11 +107,12 @@ This package is built with [Vite](https://vitejs.dev/) (library mode) via `@yard
 
 1. Run `pnpm install` inside this project.
 2. Run `pnpm start` to build in watch mode.
-3. To test it inside a project/theme, point the consumer at this folder with a pnpm override, e.g. in the consumer's `package.json`:
-   ```json
-   "pnpm": { "overrides": { "@yardinternet/a11y-cookie-yes": "link:../path/to/a11y-cookie-yes" } }
+3. To test it inside a project/theme, link this folder from the consumer:
+   ```bash
+   # run inside the consumer project
+   pnpm link ../path/to/a11y-cookie-yes
    ```
-   then run `pnpm install` in the consumer.
+   Undo it later with `pnpm unlink ../path/to/a11y-cookie-yes` (or `pnpm install` to restore the published version).
 
 ## 🚀 How to publish
 

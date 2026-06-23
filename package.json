@@ -33,21 +33,15 @@
 	"scripts": {
 		"start": "vite build --watch",
 		"build": "vite build",
-		"prepack": "pnpm run typecheck && vite build",
 		"typecheck": "tsc --noEmit",
 		"lint:js": "yard-toolkit lint js -m custom './src/**/*.ts' && pnpm run typecheck",
-		"lint:check:js": "yard-toolkit lint js --no-fix -m custom './src/**/*.ts' && pnpm run typecheck",
 		"lint:css": "yard-toolkit lint scss -m custom './src/**/*.scss'",
-		"lint:check:css": "yard-toolkit lint scss --no-fix -m custom './src/**/*.scss'",
 		"format:js": "yard-toolkit format js -m custom './src/**/*.ts'",
 		"format:css": "yard-toolkit format scss -m custom './src/**/*.scss'",
-		"format:check:js": "prettier --check './src/**/*.ts'",
-		"verify": "pnpm lint:check:js && pnpm lint:check:css && pnpm format:check:js && pnpm test",
-		"test": "echo \"No tests yet\" && exit 0",
 		"prepare": "husky"
 	},
 	"engines": {
-		"node": ">=18"
+		"node": ">=22"
 	},
 	"devDependencies": {
 		"@yardinternet/eslint-config": "^1.2.12",
