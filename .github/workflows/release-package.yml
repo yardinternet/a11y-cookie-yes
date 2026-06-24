@@ -39,6 +39,7 @@ jobs:
         run: pnpm install --frozen-lockfile
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - run: pnpm build
       - name: Publish
         run: pnpm publish --no-git-checks
         env:
