@@ -40,9 +40,6 @@
 		"format:css": "yard-toolkit format scss -m custom './src/**/*.scss'",
 		"prepare": "husky"
 	},
-	"engines": {
-		"node": ">=22"
-	},
 	"devDependencies": {
 		"@yardinternet/eslint-config": "^1.2.12",
 		"@yardinternet/prettier-config": "^2.0.11",
