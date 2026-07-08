@@ -1,0 +1,6 @@
+# Copy this file to .npmrc (git-ignored) and replace YOUR_GITHUB_PAT
+# with a GitHub personal access token that has the read:packages scope.
+
+# @yardinternet packages are published to GitHub Packages
+@yardinternet:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=YOUR_GITHUB_PAT

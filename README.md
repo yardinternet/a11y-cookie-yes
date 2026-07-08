@@ -105,6 +105,8 @@ List of current styling options that can be overwritten:
 
 This package is built with [Vite](https://vitejs.dev/) (library mode) via `@yardinternet/vite-config`. It outputs ESM only, so it can't be used with `require`.
 
+Dev dependencies come from GitHub Packages: copy `.npmrc.example` to `.npmrc` and add a GitHub token with the `read:packages` scope.
+
 1. Run `pnpm install` inside this project.
 2. Run `pnpm start` to build in watch mode.
 3. To test it inside a project/theme, link this folder from the consumer:
