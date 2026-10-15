@@ -94,21 +94,21 @@ List of current styling options that can be overwritten:
 	--a11y-cookie-yes-btn-secondary-bg: transparent;
 	--a11y-cookie-yes-btn-secondary-txt-color: var(--a11y-cookie-yes-primary-color);
 	--a11y-cookie-yes-btn-secondary-border-color: var(--a11y-cookie-yes-primary-color);
-	--a11y-cookie-yes-blocked-embed-bg-color: color-mix(in oklab, color-mix(in oklab, rgb(76 72 72) 70%, var(--a11y-cookie-yes-blocked-embed-tint-color)) 70%, transparent);
+	--a11y-cookie-yes-blocked-embed-bg: color-mix(in oklab, color-mix(in oklab, rgb(76 72 72) 70%, var(--a11y-cookie-yes-blocked-embed-tint-color)) 70%, transparent);
 	--a11y-cookie-yes-blocked-embed-gap: 2rem;
 	--a11y-cookie-yes-blocked-embed-radius: var(--radius-theme, var(--a11y-cookie-yes-border-radius));
 	--a11y-cookie-yes-blocked-embed-tint-color: var(--color-primary, var(--a11y-cookie-yes-primary-color));
-	--a11y-cookie-yes-vimeo-icon: '\f27d';
 	--a11y-cookie-yes-vimeo-icon-color: #fff;
 	--a11y-cookie-yes-vimeo-icon-font-family: 'Font Awesome 6 Brands';
-	--a11y-cookie-yes-vimeo-icon-font-size: 4rem;
+	--a11y-cookie-yes-vimeo-icon-size: 4rem;
+	--a11y-cookie-yes-vimeo-icon-unicode: '\f27d';
 	--a11y-cookie-yes-youtube-icon: '\f167';
 	--a11y-cookie-yes-youtube-icon-color: #fff;
 	--a11y-cookie-yes-youtube-icon-font-family: 'Font Awesome 6 Brands';
 	--a11y-cookie-yes-youtube-icon-font-size: 4rem;
 ```
 
-Blocked YouTube and Vimeo embeds show the provider icon above the consent button, and a click anywhere on the placeholder clicks that button. In a Tailwind theme the placeholder picks up `--color-primary` for its tint and `--radius-theme` for its rounding; without those it falls back to `--a11y-cookie-yes-primary-color` and `--a11y-cookie-yes-border-radius`. The old `--a11y-cookie-yes-vimeo-icon-unicode` and `--a11y-cookie-yes-vimeo-icon-size` still work.
+Blocked YouTube and Vimeo embeds show the provider icon above the consent button, and a click anywhere on the placeholder clicks that button. In a Tailwind theme the placeholder picks up `--color-primary` for its tint and `--radius-theme` for its rounding; without those it falls back to `--a11y-cookie-yes-primary-color` and `--a11y-cookie-yes-border-radius`.
 
 ## 👷‍♀️ Package development
 
