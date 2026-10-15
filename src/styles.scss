@@ -24,9 +24,12 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 	--a11y-cookie-yes-btn-secondary-bg: transparent;
 	--a11y-cookie-yes-btn-secondary-txt-color: var( --a11y-cookie-yes-primary-color );
 	--a11y-cookie-yes-btn-secondary-border-color: var( --a11y-cookie-yes-primary-color );
-	--a11y-cookie-yes-blocked-embed-bg: rgba( 76, 72, 72, 0.7 );
+	// Tailwind theme variables first, so brave sites match without extra config
+	--a11y-cookie-yes-blocked-embed-tint: var( --color-primary, var( --a11y-cookie-yes-primary-color ) );
+	// The grey CookieYes puts over the YouTube thumbnail, with a tint of the theme colour
+	--a11y-cookie-yes-blocked-embed-bg: color-mix( in oklab, color-mix( in oklab, rgb( 76 72 72 ) 70%, var( --a11y-cookie-yes-blocked-embed-tint ) ) 70%, transparent );
 	--a11y-cookie-yes-blocked-embed-gap: 2rem;
-	--a11y-cookie-yes-blocked-embed-radius: var( --a11y-cookie-yes-border-radius );
+	--a11y-cookie-yes-blocked-embed-radius: var( --radius-theme, var( --a11y-cookie-yes-border-radius ) );
 	--a11y-cookie-yes-youtube-icon-font-family: 'Font Awesome 6 Brands';
 	--a11y-cookie-yes-youtube-icon-color: #fff;
 	--a11y-cookie-yes-youtube-icon-size: 4rem;
