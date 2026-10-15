@@ -25,16 +25,15 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 	--a11y-cookie-yes-btn-secondary-txt-color: var( --a11y-cookie-yes-primary-color );
 	--a11y-cookie-yes-btn-secondary-border-color: var( --a11y-cookie-yes-primary-color );
 	// The grey CookieYes puts over the YouTube thumbnail, tinted with the theme colour
-	--a11y-cookie-yes-blocked-embed-bg-color: color-mix( in oklab, color-mix( in oklab, rgb( 76 72 72 ) 70%, var( --a11y-cookie-yes-blocked-embed-tint-color ) ) 70%, transparent );
+	--a11y-cookie-yes-blocked-embed-bg: color-mix( in oklab, color-mix( in oklab, rgb( 76 72 72 ) 70%, var( --a11y-cookie-yes-blocked-embed-tint-color ) ) 70%, transparent );
 	--a11y-cookie-yes-blocked-embed-gap: 2rem;
 	// Tailwind theme variables first, so brave sites match without extra config
 	--a11y-cookie-yes-blocked-embed-radius: var( --radius-theme, var( --a11y-cookie-yes-border-radius ) );
 	--a11y-cookie-yes-blocked-embed-tint-color: var( --color-primary, var( --a11y-cookie-yes-primary-color ) );
-	// The -unicode and -size fallbacks keep the old Vimeo variable names working
-	--a11y-cookie-yes-vimeo-icon: var( --a11y-cookie-yes-vimeo-icon-unicode, '\f27d' );
 	--a11y-cookie-yes-vimeo-icon-color: #fff;
 	--a11y-cookie-yes-vimeo-icon-font-family: 'Font Awesome 6 Brands';
-	--a11y-cookie-yes-vimeo-icon-font-size: var( --a11y-cookie-yes-vimeo-icon-size, 4rem );
+	--a11y-cookie-yes-vimeo-icon-size: 4rem;
+	--a11y-cookie-yes-vimeo-icon-unicode: '\f27d';
 	--a11y-cookie-yes-youtube-icon: '\f167';
 	--a11y-cookie-yes-youtube-icon-color: #fff;
 	--a11y-cookie-yes-youtube-icon-font-family: 'Font Awesome 6 Brands';
@@ -179,7 +178,7 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 		align-items: center;
 		border: 0;
 		border-radius: var( --a11y-cookie-yes-blocked-embed-radius );
-		background-color: var( --a11y-cookie-yes-blocked-embed-bg-color );
+		background-color: var( --a11y-cookie-yes-blocked-embed-bg );
 		cursor: pointer;
 		gap: var( --a11y-cookie-yes-blocked-embed-gap );
 	}
@@ -200,9 +199,9 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 
 			&::before {
 				color: var( --a11y-cookie-yes-vimeo-icon-color );
-				content: var( --a11y-cookie-yes-vimeo-icon );
+				content: var( --a11y-cookie-yes-vimeo-icon-unicode );
 				font-family: var( --a11y-cookie-yes-vimeo-icon-font-family );
-				font-size: var( --a11y-cookie-yes-vimeo-icon-font-size );
+				font-size: var( --a11y-cookie-yes-vimeo-icon-size );
 				line-height: 1;
 			}
 		}
