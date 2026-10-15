@@ -24,10 +24,16 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 	--a11y-cookie-yes-btn-secondary-bg: transparent;
 	--a11y-cookie-yes-btn-secondary-txt-color: var( --a11y-cookie-yes-primary-color );
 	--a11y-cookie-yes-btn-secondary-border-color: var( --a11y-cookie-yes-primary-color );
-	--a11y-cookie-yes-blocked-embed-bg: #f2f2f2;
+	--a11y-cookie-yes-blocked-embed-bg: rgba( 76, 72, 72, 0.7 );
+	--a11y-cookie-yes-blocked-embed-gap: 2rem;
+	--a11y-cookie-yes-blocked-embed-radius: var( --a11y-cookie-yes-border-radius );
+	--a11y-cookie-yes-youtube-icon-font-family: 'Font Awesome 6 Brands';
+	--a11y-cookie-yes-youtube-icon-color: #fff;
+	--a11y-cookie-yes-youtube-icon-size: 4rem;
+	--a11y-cookie-yes-youtube-icon-unicode: '\f167';
 	--a11y-cookie-yes-vimeo-icon-font-family: 'Font Awesome 6 Brands';
-	--a11y-cookie-yes-vimeo-icon-color: #01adef;
-	--a11y-cookie-yes-vimeo-icon-size: 5rem;
+	--a11y-cookie-yes-vimeo-icon-color: #fff;
+	--a11y-cookie-yes-vimeo-icon-size: 4rem;
 	--a11y-cookie-yes-vimeo-icon-unicode: '\f27d';
 
 	// Enforce sitewide button styling
@@ -157,7 +163,7 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
  * Wordpress / CookieYes blocked embed overlay
  */
 .wp-block-embed {
-	// Video container
+	// Video container, clicking anywhere clicks the consent button (see makeEmbedPlaceholderClickable)
 	[#{$ckData}='video-placeholder'] {
 		position: absolute;
 		top: 0;
@@ -165,23 +171,35 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 		left: 0;
 		width: 100% !important;
 		height: 100% !important;
+		flex-direction: column;
 		align-items: center;
 		border: 0;
-		background-color: var( --a11y-cookie-yes-blocked-embed-background );
+		border-radius: var( --a11y-cookie-yes-blocked-embed-radius );
+		background-color: var( --a11y-cookie-yes-blocked-embed-bg );
+		cursor: pointer;
+		gap: var( --a11y-cookie-yes-blocked-embed-gap );
 	}
 
-	// Vimeo thumbnail icon
+	// Provider icon above the consent button, so it is clear that accepting shows a video
+	&.is-provider-youtube [#{$ckData}='video-placeholder']::before {
+		color: var( --a11y-cookie-yes-youtube-icon-color );
+		content: var( --a11y-cookie-yes-youtube-icon-unicode );
+		font-family: var( --a11y-cookie-yes-youtube-icon-font-family );
+		font-size: var( --a11y-cookie-yes-youtube-icon-size );
+		line-height: 1;
+	}
+
+	// Vimeo has no thumbnail, only the background colour
 	&.is-provider-vimeo {
 		[#{$ckData}='video-placeholder'] {
 			background-image: none;
 
-			&::after {
-				position: absolute;
-				bottom: 0;
+			&::before {
 				color: var( --a11y-cookie-yes-vimeo-icon-color );
 				content: var( --a11y-cookie-yes-vimeo-icon-unicode );
 				font-family: var( --a11y-cookie-yes-vimeo-icon-font-family );
 				font-size: var( --a11y-cookie-yes-vimeo-icon-size );
+				line-height: 1;
 			}
 		}
 	}
