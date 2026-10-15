@@ -166,7 +166,7 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
  * Wordpress / CookieYes blocked embed overlay
  */
 .wp-block-embed {
-	// Video container, clicking anywhere clicks the consent button (see makeEmbedPlaceholderClickable)
+	// Video container
 	[#{$ckData}='video-placeholder'] {
 		position: absolute;
 		top: 0;
