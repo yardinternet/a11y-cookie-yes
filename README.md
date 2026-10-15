@@ -94,11 +94,25 @@ List of current styling options that can be overwritten:
 	--a11y-cookie-yes-btn-secondary-bg: transparent;
 	--a11y-cookie-yes-btn-secondary-txt-color: var(--a11y-cookie-yes-primary-color);
 	--a11y-cookie-yes-btn-secondary-border-color: var(--a11y-cookie-yes-primary-color);
-	--a11y-cookie-yes-blocked-embed-bg: #f2f2f2;
+	--a11y-cookie-yes-blocked-embed-bg: rgba(76, 72, 72, 0.7);
+	--a11y-cookie-yes-blocked-embed-gap: 2rem;
+	--a11y-cookie-yes-blocked-embed-radius: var(--a11y-cookie-yes-border-radius);
+	--a11y-cookie-yes-youtube-icon-font-family: 'Font Awesome 6 Brands';
+	--a11y-cookie-yes-youtube-icon-color: #fff;
+	--a11y-cookie-yes-youtube-icon-size: 4rem;
+	--a11y-cookie-yes-youtube-icon-unicode: '\f167';
 	--a11y-cookie-yes-vimeo-icon-font-family: 'Font Awesome 6 Brands';
-	--a11y-cookie-yes-vimeo-icon-color: #01adef;
-	--a11y-cookie-yes-vimeo-icon-size: 5rem;
+	--a11y-cookie-yes-vimeo-icon-color: #fff;
+	--a11y-cookie-yes-vimeo-icon-size: 4rem;
 	--a11y-cookie-yes-vimeo-icon-unicode: '\f27d';
+```
+
+Blocked YouTube and Vimeo embeds show the provider icon above the consent button, and a click anywhere on the placeholder clicks that button. To match the rounding of your other media, point the placeholder radius at your theme's radius, for example:
+
+```css
+[data-cky-tag='video-placeholder'] {
+	--a11y-cookie-yes-blocked-embed-radius: var(--radius-theme);
+}
 ```
 
 ## 👷‍♀️ Package development

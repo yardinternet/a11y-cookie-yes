@@ -35,6 +35,7 @@ export default class A11yCookieYes {
 	private EMBED_BLOCKER_NEW_CLASS_CSS: string = '.cky-banner-element';
 	private EMBED_BLOCKER_BUTTON_CSS: string =
 		'[data-cky-tag="placeholder-title"]';
+	private EMBED_PLACEHOLDER_CSS: string = '[data-cky-tag="video-placeholder"]';
 	private COOKIE_YES_HIDDEN_CSS: string = '.cky-hide';
 	private BANNER_TITLE_ID: string = 'yard-cky-title';
 	private BANNER_TITLE_CSS: string = '.cky-title';
@@ -145,6 +146,7 @@ export default class A11yCookieYes {
 
 		// Page
 		this.changeEmbedText();
+		this.makeEmbedPlaceholderClickable();
 
 		return this;
 	}
@@ -571,6 +573,29 @@ export default class A11yCookieYes {
 			button.classList.add(
 				this.EMBED_BLOCKER_NEW_CLASS_CSS.substring( 1 )
 			);
+		} );
+	}
+
+	/**
+	 * A click anywhere on a blocked embed placeholder clicks its consent button.
+	 * Delegated, because CookieYes adds the placeholders after page load.
+	 */
+	private makeEmbedPlaceholderClickable(): void {
+		document.addEventListener( 'click', ( event: MouseEvent ) => {
+			const target = event.target as Element | null;
+			const placeholder = target?.closest( this.EMBED_PLACEHOLDER_CSS );
+
+			if (
+				! placeholder ||
+				target?.closest( this.EMBED_BLOCKER_BUTTON_CSS )
+			)
+				return;
+
+			placeholder
+				.querySelector< HTMLButtonElement >(
+					this.EMBED_BLOCKER_BUTTON_CSS
+				)
+				?.click();
 		} );
 	}
 }
