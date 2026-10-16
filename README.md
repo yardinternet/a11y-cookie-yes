@@ -108,8 +108,6 @@ List of current styling options that can be overwritten:
 	--a11y-cookie-yes-youtube-icon-font-size: 4rem;
 ```
 
-Blocked YouTube and Vimeo embeds show the provider icon above the consent button, and a click anywhere on the placeholder clicks that button. In a Tailwind theme the placeholder picks up `--color-primary` for its tint and `--radius-theme` for its rounding; without those it falls back to `--a11y-cookie-yes-primary-color` and `--a11y-cookie-yes-border-radius`.
-
 ## 👷‍♀️ Package development
 
 This package is built with [Vite](https://vitejs.dev/) (library mode) via `@yardinternet/vite-config`. It outputs ESM only, so it can't be used with `require`.
