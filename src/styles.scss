@@ -177,7 +177,6 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 		border: 0;
 		border-radius: var( --a11y-cookie-yes-blocked-embed-radius );
 		background-color: var( --a11y-cookie-yes-blocked-embed-bg );
-		cursor: pointer;
 		gap: var( --a11y-cookie-yes-blocked-embed-gap );
 	}
 
@@ -207,33 +206,23 @@ $ckRevisitConsentDefaultColorPartialTextString: '#0056';
 
 	// Button container
 	[#{$ckData}='placeholder-title'] {
-		position: relative;
-		z-index: 1;
 		border-color: var( --a11y-cookie-yes-btn-primary-bg ) !important;
 		border-radius: var( --a11y-cookie-yes-border-radius );
 		margin-bottom: 0;
-		background-color: transparent !important;
+		background-color: var( --a11y-cookie-yes-btn-primary-bg ) !important;
 		color: var( --a11y-cookie-yes-btn-primary-txt-color ) !important;
-		transition: 0.2s transform;
 
-		&::before {
+		// Stretched over the whole placeholder, so a click anywhere is a click on the button
+		&::after {
 			position: absolute;
-			z-index: -1;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			left: 0;
-			background-color: var( --a11y-cookie-yes-btn-primary-bg );
 			content: '';
-			filter: brightness( 100% );
+			inset: 0;
 		}
 
 		&:hover,
 		&:focus,
 		&:active {
-			&::before {
-				filter: brightness( 85% );
-			}
+			background-color: color-mix( in oklab, var( --a11y-cookie-yes-btn-primary-bg ), black 15% ) !important;
 		}
 	}
 }
